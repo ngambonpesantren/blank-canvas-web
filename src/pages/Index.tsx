@@ -12,6 +12,8 @@ import { OfflineIndicator } from '@/features/sync/OfflineIndicator';
 import { AutoSaveIndicator } from '@/features/sync/AutoSaveIndicator';
 import { toast } from 'sonner';
 import { extractMentions } from '@/core/metadata/markdown-parser';
+import { metadataCache, enrichNode } from '@/core/metadata/MetadataCache';
+import { useIndexedNodes, useMetadataVersion } from '@/core/metadata/useMetadataCache';
 import { getVaultManager } from '@/core/vault/VaultManagerSingleton';
 import { useAutoLinks } from "@/features/graph/hooks/useAutoLinks";
 import { useAuth } from "@/features/auth/hooks/useAuth";
@@ -105,8 +107,13 @@ const Index = () => {
     }
   }, [isDirty, currentVaultId, graphConfig, vaultManager, markClean]);
 
+  // Keep the metadata index in sync with the notes and derive tags/wikilinks
+  // from note content so the graph reflects edits as soon as they are saved.
+  const indexedNodes = useIndexedNodes(nodes);
+  const metadataVersion = useMetadataVersion();
+
   // Auto-generate links based on topology config
-  const autoLinks = useAutoLinks(nodes, {
+  const autoLinks = useAutoLinks(indexedNodes, {
     hierarchy: graphConfig.topology.showHierarchy,
     tags: graphConfig.topology.showTags,
     backlinks: graphConfig.topology.showBacklinks,
