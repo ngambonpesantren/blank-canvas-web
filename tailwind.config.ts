@@ -57,6 +57,8 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        "graph-bg": "hsl(var(--graph-bg))",
+        "node-glow": "hsl(var(--node-glow))",
       },
       borderRadius: {
         lg: "var(--radius)",
