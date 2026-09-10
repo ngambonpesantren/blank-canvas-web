@@ -252,7 +252,14 @@ const Index = () => {
     toast.info('Vault closed');
   };
 
-  const handleNodeUpdate = async (updatedNode: Node) => {
+  const handleNodeUpdate = async (incomingNode: Node) => {
+    // Derive tags / wikilinks / frontmatter from the note body before saving so
+    // graph, backlinks and tag index stay in sync with what was typed.
+    const updatedNode = enrichNode(
+      incomingNode,
+      metadataCache.parse(incomingNode.content ?? '')
+    );
+
     updateNode(updatedNode);
 
     // Update vault if active
