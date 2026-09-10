@@ -14,6 +14,7 @@ import {
   type Command,
 } from "@/core/commands/CommandRegistry";
 import { subscribeActiveEditor } from "@/features/editor/activeEditor";
+import { onOpenCommandPalette } from "@/features/command-palette/paletteEvents";
 import type { EditorApi } from "@/features/editor/types";
 
 /**
@@ -27,6 +28,8 @@ export const CommandPalette = () => {
 
   useEffect(() => commandRegistry.subscribe(setCommands), []);
   useEffect(() => subscribeActiveEditor(setEditor), []);
+  // "/" on an empty line in the editor opens the palette too.
+  useEffect(() => onOpenCommandPalette(() => setOpen(true)), []);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
