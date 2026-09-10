@@ -25,6 +25,7 @@ import {
   propertyCompletion,
   type SuggestSource,
 } from "@/features/editor/suggest/suggestions";
+import { openCommandPalette } from "@/features/command-palette/paletteEvents";
 
 export interface EditorSetupOptions {
   mode: "source" | "live";
@@ -80,6 +81,16 @@ export function createEditorExtensions(options: EditorSetupOptions): Extension[]
       ...defaultKeymap,
       indentWithTab,
     ]),
+    // Typing "/" on an otherwise empty line opens the command palette.
+    EditorView.inputHandler.of((view, from, to, text) => {
+      if (text !== "/") return false;
+      const line = view.state.doc.lineAt(from);
+      const before = view.state.sliceDoc(line.from, from);
+      const after = view.state.sliceDoc(to, line.to);
+      if (before.trim() !== "" || after.trim() !== "") return false;
+      openCommandPalette();
+      return true;
+    }),
     EditorView.updateListener.of((update) => {
       if (update.docChanged) options.onChange(update.state.doc.toString());
     }),

@@ -12,6 +12,8 @@ import { OfflineIndicator } from '@/features/sync/OfflineIndicator';
 import { AutoSaveIndicator } from '@/features/sync/AutoSaveIndicator';
 import { toast } from 'sonner';
 import { extractMentions } from '@/core/metadata/markdown-parser';
+import { metadataCache, enrichNode } from '@/core/metadata/MetadataCache';
+import { useIndexedNodes, useMetadataVersion } from '@/core/metadata/useMetadataCache';
 import { getVaultManager } from '@/core/vault/VaultManagerSingleton';
 import { useAutoLinks } from "@/features/graph/hooks/useAutoLinks";
 import { useAuth } from "@/features/auth/hooks/useAuth";
@@ -105,8 +107,13 @@ const Index = () => {
     }
   }, [isDirty, currentVaultId, graphConfig, vaultManager, markClean]);
 
+  // Keep the metadata index in sync with the notes and derive tags/wikilinks
+  // from note content so the graph reflects edits as soon as they are saved.
+  const indexedNodes = useIndexedNodes(nodes);
+  const metadataVersion = useMetadataVersion();
+
   // Auto-generate links based on topology config
-  const autoLinks = useAutoLinks(nodes, {
+  const autoLinks = useAutoLinks(indexedNodes, {
     hierarchy: graphConfig.topology.showHierarchy,
     tags: graphConfig.topology.showTags,
     backlinks: graphConfig.topology.showBacklinks,
@@ -115,20 +122,20 @@ const Index = () => {
 
   // Compute stats when nodes/links change
   useEffect(() => {
-    computeStats(nodes, autoLinks);
-  }, [nodes, autoLinks, computeStats]);
+    computeStats(indexedNodes, autoLinks);
+  }, [indexedNodes, autoLinks, computeStats]);
 
   // Memoized graphData with auto-generated links
   const graphData = useMemo<GraphData>(
     () => ({
-      nodes,
+      nodes: indexedNodes,
       links: autoLinks.map((link) => ({
         source: link.source,
         target: link.target,
         type: link.type,
       })),
     }),
-    [nodes, autoLinks]
+    [indexedNodes, autoLinks]
   );
 
   // Wrapper to update graphData via nodes
@@ -196,26 +203,27 @@ const Index = () => {
     reloadVaults();
   }, [isAuthenticated, vaultManager, loadActiveVault, resetVault, resetNodes]);
 
-  // Calculate backlinks for a given node
+  // Backlinks come straight from the metadata index (linked mentions),
+  // plus a text scan for unlinked mentions.
   const getBacklinksForNode = useCallback((targetNode: Node): Backlink[] => {
     if (!targetNode || targetNode.type === 'folder') return [];
 
     const links: Backlink[] = [];
+    const linked = new Set(
+      metadataCache.getBacklinks(targetNode.id).map((ref) => ref.nodeId)
+    );
 
-    nodes.forEach((node) => {
+    indexedNodes.forEach((node) => {
       if (node.id === targetNode.id || node.type === 'folder') return;
 
-      // Check for explicit wikilinks
-      if (node.wikilinks && node.wikilinks.includes(targetNode.name)) {
+      if (linked.has(node.id)) {
         links.push({
           nodeId: node.id,
           nodeName: node.name,
           nodePath: getNodePath(node.id),
           isWikilink: true,
         });
-      }
-      // Check for unlinked mentions
-      else if (extractMentions(node.content, targetNode.name)) {
+      } else if (extractMentions(node.content, targetNode.name)) {
         links.push({
           nodeId: node.id,
           nodeName: node.name,
@@ -226,7 +234,8 @@ const Index = () => {
     });
 
     return links;
-  }, [nodes, getNodePath]);
+    // metadataVersion keeps this in sync with re-indexing.
+  }, [indexedNodes, metadataVersion, getNodePath]);
 
   // Calculate backlinks for the selected node
   const backlinks = useMemo((): Backlink[] => {
@@ -243,7 +252,14 @@ const Index = () => {
     toast.info('Vault closed');
   };
 
-  const handleNodeUpdate = async (updatedNode: Node) => {
+  const handleNodeUpdate = async (incomingNode: Node) => {
+    // Derive tags / wikilinks / frontmatter from the note body before saving so
+    // graph, backlinks and tag index stay in sync with what was typed.
+    const updatedNode = enrichNode(
+      incomingNode,
+      metadataCache.parse(incomingNode.content ?? '')
+    );
+
     updateNode(updatedNode);
 
     // Update vault if active
