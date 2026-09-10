@@ -122,20 +122,20 @@ const Index = () => {
 
   // Compute stats when nodes/links change
   useEffect(() => {
-    computeStats(nodes, autoLinks);
-  }, [nodes, autoLinks, computeStats]);
+    computeStats(indexedNodes, autoLinks);
+  }, [indexedNodes, autoLinks, computeStats]);
 
   // Memoized graphData with auto-generated links
   const graphData = useMemo<GraphData>(
     () => ({
-      nodes,
+      nodes: indexedNodes,
       links: autoLinks.map((link) => ({
         source: link.source,
         target: link.target,
         type: link.type,
       })),
     }),
-    [nodes, autoLinks]
+    [indexedNodes, autoLinks]
   );
 
   // Wrapper to update graphData via nodes
@@ -203,26 +203,27 @@ const Index = () => {
     reloadVaults();
   }, [isAuthenticated, vaultManager, loadActiveVault, resetVault, resetNodes]);
 
-  // Calculate backlinks for a given node
+  // Backlinks come straight from the metadata index (linked mentions),
+  // plus a text scan for unlinked mentions.
   const getBacklinksForNode = useCallback((targetNode: Node): Backlink[] => {
     if (!targetNode || targetNode.type === 'folder') return [];
 
     const links: Backlink[] = [];
+    const linked = new Set(
+      metadataCache.getBacklinks(targetNode.id).map((ref) => ref.nodeId)
+    );
 
-    nodes.forEach((node) => {
+    indexedNodes.forEach((node) => {
       if (node.id === targetNode.id || node.type === 'folder') return;
 
-      // Check for explicit wikilinks
-      if (node.wikilinks && node.wikilinks.includes(targetNode.name)) {
+      if (linked.has(node.id)) {
         links.push({
           nodeId: node.id,
           nodeName: node.name,
           nodePath: getNodePath(node.id),
           isWikilink: true,
         });
-      }
-      // Check for unlinked mentions
-      else if (extractMentions(node.content, targetNode.name)) {
+      } else if (extractMentions(node.content, targetNode.name)) {
         links.push({
           nodeId: node.id,
           nodeName: node.name,
@@ -233,7 +234,8 @@ const Index = () => {
     });
 
     return links;
-  }, [nodes, getNodePath]);
+    // metadataVersion keeps this in sync with re-indexing.
+  }, [indexedNodes, metadataVersion, getNodePath]);
 
   // Calculate backlinks for the selected node
   const backlinks = useMemo((): Backlink[] => {
