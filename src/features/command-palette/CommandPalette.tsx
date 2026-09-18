@@ -15,6 +15,7 @@ import {
 } from "@/core/commands/CommandRegistry";
 import { subscribeActiveEditor } from "@/features/editor/activeEditor";
 import { onOpenCommandPalette } from "@/features/command-palette/paletteEvents";
+import { useFeatureEnabled } from "@/core/plugins/useFeatureEnabled";
 import type { EditorApi } from "@/features/editor/types";
 
 /**
@@ -25,6 +26,7 @@ export const CommandPalette = () => {
   const [open, setOpen] = useState(false);
   const [commands, setCommands] = useState<Command[]>([]);
   const [editor, setEditor] = useState<EditorApi | null>(null);
+  const paletteEnabled = useFeatureEnabled("command-palette");
 
   useEffect(() => commandRegistry.subscribe(setCommands), []);
   useEffect(() => subscribeActiveEditor(setEditor), []);
@@ -49,9 +51,10 @@ export const CommandPalette = () => {
       command.run({ editor });
     };
 
+    if (!paletteEnabled) return;
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [editor]);
+  }, [editor, paletteEnabled]);
 
   const grouped = useMemo(() => {
     const available = commands.filter((c) =>
@@ -72,6 +75,8 @@ export const CommandPalette = () => {
     // Let the dialog close and focus return to the editor first.
     requestAnimationFrame(() => command.run({ editor }));
   };
+
+  if (!paletteEnabled) return null;
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
