@@ -45,7 +45,7 @@ describe('mindmapLayout', () => {
     const tree = starTree();
     const geo = mindmapLayout({ ...tree, context: context({ orientation: 'radial' }) });
     const root = geo.targets.get('root')!;
-    expect(Math.hypot(root.x, root.y)).toBeLessThan 	(1e-6);
+    expect(Math.hypot(root.x, root.y)).toBeLessThan(1e-6);
     const radii = tree.childrenOf('root').map((id) => {
       const t = geo.targets.get(id)!;
       return Math.hypot(t.x, t.y);
