@@ -13,7 +13,7 @@ import {
   Search,
   SlidersHorizontal,
   Sparkles,
-  Unfold,
+  UnfoldVertical,
   X,
 } from 'lucide-react';
 import { useState } from 'react';
@@ -146,7 +146,7 @@ export function GraphWorkspaceControls({
                     onClearFocus();
                   }}
                 >
-                  <Unfold className="h-4 w-4" />
+                  <UnfoldVertical className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="right">Show everything</TooltipContent>
