@@ -35,7 +35,7 @@ describe('timelineLayout', () => {
   });
 
   it('alternates lanes for dense milestones', () => {
-    const nodes = Array.from({ length: 8 }, (_, i) => ({ id: `n${i}`, time: day + i * 1000 }));
+    const nodes = Array.from({ length: 40 }, (_, i) => ({ id: `n${i}`, time: day + i * 1000 }));
     const geo = timelineLayout({ nodes, parentOf: () => null, context: context() });
     const ys = nodes.map((n) => geo.targets.get(n.id)!.y);
     expect(new Set(ys).size).toBeGreaterThan(1);
