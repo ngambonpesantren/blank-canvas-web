@@ -20,7 +20,7 @@ import {
 } from "./capabilities";
 import { VaultStorage } from "../VaultStorage";
 import { cloudVaultService } from "../CloudVaultService";
-import { getFileSystemService } from "@/core/system/persistence/FileSystemService.singleton";
+import { getFileSystemService } from "@/core/system/persistence/FileSystemServiceSingleton";
 
 // ------------------------------------------------------------------- memory
 

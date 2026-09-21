@@ -58,6 +58,13 @@ export class FileSystemService {
     vaultName: string;
     handle: FileSystemDirectoryHandle;
   } | null> {
+    // Feature detection first: browsers without the File System Access API
+    // must get a clear message instead of a TypeError.
+    if (typeof (window as any).showDirectoryPicker !== "function") {
+      throw new Error(
+        "This browser cannot open folders on your computer — use Chrome or Edge on desktop.",
+      );
+    }
     try {
       // @ts-ignore - File System Access API
       const dirHandle = await window.showDirectoryPicker({ mode: "readwrite" });
