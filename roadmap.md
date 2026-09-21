@@ -8,3 +8,10 @@
 - [x] Add hierarchy-level node sizing with a configurable level interval.
 - [x] Add synchronized Living Graph play and pause controls.
 - [x] Validate TypeScript and the running preview.
+- [x] Preserve and connect every Visual Graph Engine node, link, topology, and force setting.
+- [x] Repair timeline milestone/detail placement and link routing.
+- [x] Repair fishbone branch geometry and prevent node/link overlap.
+- [x] Verify all graph modes and global settings in tests and the running preview.
+- [x] Remove hidden label-box geometry from shape-only graph nodes.
+- [x] Move cloud synchronization status into the workspace status bar.
+- [x] Simplify the workspace ribbon and add the collapsible universal Settings sidebar.
