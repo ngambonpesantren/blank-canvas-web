@@ -13,7 +13,10 @@ import { GraphService } from "../../graph/GraphService";
 import { VaultStorage } from "./VaultStorage";
 import { VaultHistory } from "./VaultHistory";
 import { VaultBackupService } from "./VaultBackupService";
-import { FileSystemService } from "../persistence/FileSystemService";
+import type { FileSystemService } from "../persistence/FileSystemService";
+import { getFileSystemService } from "../persistence/FileSystemServiceSingleton";
+import { directoryHandleStore } from "../persistence/directoryHandleStore";
+import { hasGrantedPermission } from "./repository/capabilities";
 import { writeVaultConfigFile } from "../config/VaultConfigFile";
 import {
   BackupConfig,
@@ -105,8 +108,13 @@ export class VaultManager {
       const resolvedLocation: VaultLocation =
         (metadata as any).location ?? location;
 
-      // Folder vaults must be reopened by the user (handles are not portable).
-      if (resolvedLocation === "folder") continue;
+      // Folder vaults reopen through their remembered directory handle
+      // (with a permission prompt on the next click when access expired).
+      if (resolvedLocation === "folder") {
+        const restored = await this.tryRestoreFolderVault(metadata);
+        if (restored) this.vaults.set(restored.id, restored);
+        continue;
+      }
 
       const vaultData = await this.storage.getVault(metadata.id);
       if (vaultData) {
@@ -179,6 +187,79 @@ export class VaultManager {
     };
   }
 
+  /**
+   * Rebuild a folder vault from its remembered directory handle. When the
+   * browser still grants read/write access the notes are read immediately;
+   * otherwise the vault comes back as a shell and `switchVault` asks for
+   * permission again on the user's next click.
+   */
+  private async tryRestoreFolderVault(metadata: any): Promise<Vault | null> {
+    try {
+      const handle = await directoryHandleStore.get(metadata.id);
+      if (!handle) return null;
+      const vaultData = await this.storage.getVault(metadata.id);
+      if (!vaultData) return null;
+
+      const graphService = new GraphService();
+      graphService.initialize();
+
+      const vault: Vault = {
+        id: vaultData.metadata.id,
+        name: vaultData.metadata.name,
+        location: "folder",
+        cloudSync: vaultData.metadata.cloudSync ?? false,
+        type: "local-folder",
+        cloudId: vaultData.metadata.cloudId,
+        graphService,
+        history: new VaultHistory(),
+        directoryHandle: handle,
+        graphConfig: vaultData.graphConfig || null,
+        backupConfig: vaultData.backupConfig || null,
+        settings: vaultData.settings || {},
+        workspaceLayout: vaultData.workspaceLayout || null,
+        createdAt: vaultData.metadata.createdAt,
+        lastModified: vaultData.metadata.lastModified,
+      };
+
+      if (await hasGrantedPermission(handle)) {
+        await this.readFolderInto(vault);
+      }
+      return vault;
+    } catch (error) {
+      console.warn(
+        "VaultManager: could not restore folder vault",
+        metadata?.id,
+        error,
+      );
+      return null;
+    }
+  }
+
+  /**
+   * Attach the shared file service to a vault's folder and read its notes.
+   * `verifyPermission` prompts when access was not granted yet, so this must
+   * only run inside a user gesture (or right after the picker).
+   */
+  private async readFolderInto(vault: Vault): Promise<boolean> {
+    if (!vault.directoryHandle) return false;
+    const fs = getFileSystemService();
+    if (!(await fs.verifyPermission(vault.directoryHandle))) return false;
+    fs.attach(vault.directoryHandle);
+    vault.persistenceService = fs;
+    await fs.readVaultStructure(vault.directoryHandle);
+    vault.graphService.finalizeGraph();
+    return true;
+  }
+
+  /** Re-ask permission for a folder vault whose notes have not been read. */
+  async reconnectFolderVault(vaultId: string): Promise<boolean> {
+    const vault = this.vaults.get(vaultId);
+    if (!vault) return false;
+    const ok = await this.readFolderInto(vault);
+    if (ok) await this.persistVault(vault);
+    return ok;
+  }
+
   // ---------------------------------------------------------------- creation
 
   /** A vault that lives in the user's account (no folder on this computer). */
@@ -232,7 +313,7 @@ export class VaultManager {
     const graphService = new GraphService();
     graphService.initialize();
 
-    const persistenceService = new FileSystemService();
+    const persistenceService = getFileSystemService();
     persistenceService.attach(root);
 
     const granted = await persistenceService.verifyPermission(root);
@@ -265,6 +346,7 @@ export class VaultManager {
     this.activeVaultId = vaultId;
     this.rememberActiveVault();
     await this.persistVault(vault);
+    await directoryHandleStore.put(vaultId, root);
     emitVaultCreated({
       vaultId,
       vaultName: vault.name,
@@ -281,7 +363,7 @@ export class VaultManager {
     const vault = this.vaults.get(vaultId);
     if (!vault) return false;
 
-    const persistenceService = new FileSystemService();
+    const persistenceService = getFileSystemService();
     persistenceService.attach(handle);
     if (!(await persistenceService.verifyPermission(handle))) return false;
 
@@ -306,6 +388,7 @@ export class VaultManager {
 
     await this.writeConfigExport(vault);
     await this.persistVault(vault);
+    await directoryHandleStore.put(vaultId, handle);
     return true;
   }
 
@@ -359,6 +442,17 @@ export class VaultManager {
       if (granted) await this.writeConfigExport(vault);
     }
 
+    // A folder vault restored from its handle may not have read its notes
+    // yet; asking for permission now is fine because the user just clicked.
+    if (
+      vault.location === "folder" &&
+      vault.directoryHandle &&
+      !vault.persistenceService
+    ) {
+      const reconnected = await this.readFolderInto(vault);
+      if (reconnected) await this.persistVault(vault);
+    }
+
     this.activeVaultId = vaultId;
     this.rememberActiveVault();
     vault.lastModified = Date.now();
@@ -394,6 +488,7 @@ export class VaultManager {
 
     this.vaults.delete(vaultId);
     await this.storage.deleteVault(vaultId);
+    await directoryHandleStore.remove(vaultId);
 
     if (this.activeVaultId === vaultId) {
       this.activeVaultId = this.vaults.keys().next().value ?? null;

@@ -216,7 +216,13 @@ export class SyncEngine {
 
   private async enqueue(entry: QueuedVaultPush): Promise<void> {
     const existing = await syncQueue.get(entry.id);
-    await syncQueue.put({ ...entry, retries: existing?.retries ?? 0 });
+    // Stamp the current user so ensureUserScope can detect cross-account drift.
+    const { data: auth } = await supabase.auth.getUser();
+    await syncQueue.put({
+      ...entry,
+      userId: auth.user?.id,
+      retries: existing?.retries ?? 0,
+    });
     await this.refreshPendingCount();
   }
 
@@ -397,17 +403,21 @@ export class SyncEngine {
     const manager = this.manager;
     if (!manager) return;
 
-    const entries = await syncQueue.all();
-    await this.refreshPendingCount();
-    if (entries.length === 0) {
-      if (this.status !== "syncing") this.setStatus("synced");
-      return;
-    }
-
     const { data: auth } = await supabase.auth.getUser();
     if (!auth?.user) {
       // Back online but signed out — surface the backlog instead of "offline".
       this.setStatus("queued");
+      return;
+    }
+
+    // Guard against cross-account leakage: if the queue belongs to a
+    // different user, drop it before replaying anything.
+    await syncQueue.ensureUserScope(auth.user.id);
+
+    const entries = await syncQueue.all();
+    await this.refreshPendingCount();
+    if (entries.length === 0) {
+      if (this.status !== "syncing") this.setStatus("synced");
       return;
     }
 

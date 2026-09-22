@@ -15,7 +15,7 @@ import { VaultBackupService } from "@/core/system/vault/VaultBackupService";
 import { GraphService } from "@/core/graph/GraphService";
 import { RelationshipMapper } from "@/core/graph/RelationshipMapper";
 import { ContentParser } from "@/core/system/metadata/content-parser";
-import { FileSystemService } from "@/core/system/persistence/FileSystemService";
+import { getFileSystemService } from "@/core/system/persistence/FileSystemServiceSingleton";
 import { importExportService } from "@/core/system/import-export/services/ImportExportService";
 import { apiKeyService } from "@/core/shell/profile/services/ApiKeyService";
 import { supabase } from "@/integrations/supabase/client";
@@ -50,9 +50,9 @@ export function bootstrapApp(): void {
   );
   container.register(ServiceIds.ContentParser, () => new ContentParser());
 
-  container.register(
+  container.registerInstance(
     ServiceIds.FileSystemService,
-    () => new FileSystemService(),
+    getFileSystemService(),
   );
 
   container.registerInstance(

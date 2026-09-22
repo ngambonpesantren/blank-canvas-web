@@ -48,6 +48,7 @@ import { ImportExportPanel } from "@/core/shell/workspace/ImportExportPanel";
 import { useVaultSync } from "@/core/system/vault/hooks/useVaultSync";
 import { getVaultManager } from "@/core/system/vault/VaultManagerSingleton";
 import type { VaultLocation } from "@/core/system/vault/types";
+import { pickVaultFolder } from "@/core/system/vault/repository/capabilities";
 
 type BackupEntry = Awaited<
   ReturnType<ReturnType<typeof getVaultManager>["getBackups"]>
@@ -83,8 +84,7 @@ const LOCATION_META: Record<
 };
 
 async function pickFolder(): Promise<FileSystemDirectoryHandle | null> {
-  // @ts-expect-error — File System Access API is not in the TS lib yet
-  return window.showDirectoryPicker({ mode: "readwrite" });
+  return pickVaultFolder();
 }
 
 export function VaultSettings() {

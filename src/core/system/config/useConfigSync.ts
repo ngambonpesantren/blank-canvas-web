@@ -8,7 +8,6 @@ import { configService } from "./ConfigService";
 import { registerConfigSections } from "./sections";
 import { useVaultStore } from "@/shared/stores/useVaultStore";
 import { useAuth } from "@/core/shell/auth/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
 import type { ConfigSyncState } from "./types";
 
 export function useConfigSync(): ConfigSyncState {
@@ -46,16 +45,9 @@ export function useConfigSync(): ConfigSyncState {
     if (user) void configService.pullFromCloud();
   }, [user]);
 
-  // React immediately to sign-in (including dev quick login). Token refreshes
-  // must not trigger a full pull.
-  useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session && event === "SIGNED_IN") {
-        setTimeout(() => void configService.pullFromCloud(), 0);
-      }
-    });
-    return () => data.subscription.unsubscribe();
-  }, []);
+  // Config pull on sign-in is already handled by the `user` effect above.
+  // The separate onAuthStateChange subscription was removed to avoid a
+  // duplicate auth listener — the SyncCoordinator owns sync triggers.
 
   return state;
 }

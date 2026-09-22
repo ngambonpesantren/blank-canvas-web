@@ -311,23 +311,26 @@ export class VaultSyncService {
     this.syncDebounceTimers.set(vaultId, timer);
   }
 
-  /** Clear all local vault data (for logout). */
+  /**
+   * Clear sync state for logout WITHOUT destroying local vaults.
+   * Local-only vaults survive logout so the user doesn't lose their notes
+   * just because they signed out. Only sync timers, the offline queue,
+   * and the base-version cache are cleared.
+   */
   async clearLocalData(): Promise<void> {
     this.syncDebounceTimers.forEach((timer) => clearTimeout(timer));
     this.syncDebounceTimers.clear();
     await syncEngine.clearQueue();
+    this.lastSyncTime = null;
+    this.setStatus("idle");
 
-    return new Promise((resolve, reject) => {
-      const request = indexedDB.deleteDatabase("VaultManagerDB");
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve();
-      request.onblocked = () => {
-        console.warn(
-          "IndexedDB deletion blocked - will be deleted on next session",
-        );
-        resolve();
-      };
-    });
+    // Clear the base-version cache so stale timestamps don't cause false
+    // conflicts on the next login.
+    try {
+      localStorage.removeItem("vault_sync_base_versions");
+    } catch {
+      /* ignore */
+    }
   }
 }
 

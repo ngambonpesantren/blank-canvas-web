@@ -4,6 +4,7 @@ import { Button } from "@/shared/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/shared/ui/dialog";
 import { Progress } from "@/shared/ui/progress";
 import { toast } from "sonner";
+import { supportsFolderPicker } from "@/core/system/vault/repository/capabilities";
 
 interface Node {
   id: string;
@@ -31,7 +32,7 @@ export const ExportToFileSystem = ({ vaultName, nodes, trigger }: ExportToFileSy
   const [status, setStatus] = useState<"idle" | "exporting" | "success" | "error">("idle");
 
   const checkFileSystemAccess = () => {
-    return "showDirectoryPicker" in window;
+    return supportsFolderPicker();
   };
 
   const exportToFileSystem = async () => {
