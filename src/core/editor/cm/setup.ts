@@ -26,6 +26,9 @@ import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
 import {
   bracketMatching,
+  foldGutter,
+  foldKeymap,
+  foldService,
   indentOnInput,
   indentUnit,
 } from "@codemirror/language";
@@ -125,6 +128,23 @@ export function createEditorExtensions(
       codeLanguages: languages,
       addKeymap: true,
     }),
+    foldService.of((state, lineStart, lineEnd) => {
+      const line = state.doc.lineAt(lineStart);
+      const match = /^(#{1,6})[\t ]+/.exec(line.text);
+      if (!match) return null;
+      const level = match[1].length;
+      let to = state.doc.length;
+      for (let number = line.number + 1; number <= state.doc.lines; number += 1) {
+        const next = state.doc.line(number);
+        const nextMatch = /^(#{1,6})[\t ]+/.exec(next.text);
+        if (nextMatch && nextMatch[1].length <= level) {
+          to = Math.max(lineEnd, next.from - 1);
+          break;
+        }
+      }
+      return to > lineEnd ? { from: lineEnd, to } : null;
+    }),
+    foldGutter({ openText: "⌄", closedText: "›" }),
     markdownHighlight,
     editorTheme,
     appearanceCompartment.of(appearanceTheme(appearance)),
@@ -154,6 +174,7 @@ export function createEditorExtensions(
       ...completionKeymap,
       ...searchKeymap,
       ...historyKeymap,
+      ...foldKeymap,
       ...defaultKeymap,
       ...(behavior.tabIndents ? [indentWithTab] : []),
     ]),

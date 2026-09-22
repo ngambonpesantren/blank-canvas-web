@@ -32,6 +32,20 @@ export const editorTheme = EditorView.theme({
     border: "none",
   },
   ".cm-activeLineGutter": { backgroundColor: "transparent" },
+  ".cm-foldGutter": { width: "1.15rem" },
+  ".cm-foldGutter .cm-gutterElement": {
+    color: "hsl(var(--muted-foreground) / 0.75)",
+    cursor: "pointer",
+    fontSize: "1rem",
+    textAlign: "center",
+  },
+  ".cm-foldPlaceholder": {
+    backgroundColor: "hsl(var(--muted) / 0.55)",
+    border: "1px solid hsl(var(--border))",
+    color: "hsl(var(--muted-foreground))",
+    borderRadius: "4px",
+    padding: "0 0.35rem",
+  },
   ".cm-placeholder": { color: "hsl(var(--muted-foreground) / 0.4)" },
 
   // Live preview styling
