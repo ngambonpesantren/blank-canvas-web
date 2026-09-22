@@ -29,16 +29,25 @@ export const MarkdownRenderer = ({
   const headings = useMemo(() => flattenHeadings(headingTree), [headingTree]);
   const [collapsed, setCollapsed] = useState<Set<string>>(() => new Set());
 
-  const visibleContent = useMemo(() => {
+  const hiddenRanges = useMemo(() => {
     const ranges = headings
       .filter((heading) => collapsed.has(heading.id) && heading.sectionTo > heading.contentFrom)
-      .map((heading) => ({ from: heading.contentFrom, to: heading.sectionTo }))
-      .sort((a, b) => b.from - a.from);
-    return ranges.reduce(
+      .map((heading) => ({ from: heading.contentFrom, to: heading.sectionTo }));
+    return ranges.filter(
+      (range) =>
+        !ranges.some(
+          (other) =>
+            other !== range && other.from <= range.from && other.to >= range.to,
+        ),
+    );
+  }, [collapsed, headings]);
+
+  const visibleContent = useMemo(() => {
+    return [...hiddenRanges].sort((a, b) => b.from - a.from).reduce(
       (markdown, range) => `${markdown.slice(0, range.from)}${markdown.slice(range.to)}`,
       content,
     );
-  }, [collapsed, content, headings]);
+  }, [content, hiddenRanges]);
   
   // Process wikilinks
   const processedContent = visibleContent.replace(
@@ -80,8 +89,14 @@ export const MarkdownRenderer = ({
   };
 
   const visibleHeadings = useMemo(
-    () => flattenHeadings(parseMarkdownHeadings(visibleContent)),
-    [visibleContent],
+    () =>
+      headings.filter(
+        (heading) =>
+          !hiddenRanges.some(
+            (range) => heading.from >= range.from && heading.from < range.to,
+          ),
+      ),
+    [headings, hiddenRanges],
   );
   let headingIndex = 0;
   const renderHeading = (level: number) => {
@@ -89,14 +104,7 @@ export const MarkdownRenderer = ({
     return ({ children }: { children?: React.ReactNode }) => {
       const visibleHeading = visibleHeadings[headingIndex];
       headingIndex += 1;
-      const original = visibleHeading
-        ? headings.find(
-            (heading) =>
-              heading.level === visibleHeading.level &&
-              heading.text === visibleHeading.text &&
-              heading.from <= visibleHeading.from,
-          ) ?? visibleHeading
-        : undefined;
+      const original = visibleHeading;
       const id = original?.id ?? visibleHeading?.id;
       const canCollapse = Boolean(original && original.sectionTo > original.contentFrom);
       const isCollapsed = Boolean(id && collapsed.has(id));
