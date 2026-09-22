@@ -5,6 +5,8 @@ import { cn } from "@/shared/lib";
 import { MarkdownRenderer } from "@/core/graph/MarkdownRenderer";
 import { EditorToolbar } from "@/core/editor/toolbar/EditorToolbar";
 import { PropertiesPanel } from "@/core/editor/frontmatter/PropertiesPanel";
+import { TableOfContents } from "@/core/editor/TableOfContents";
+import { parseMarkdownHeadings, type MarkdownHeading } from "@/core/editor/headings";
 import {
   createEditorExtensions,
   appearanceTheme,
@@ -51,6 +53,7 @@ export const MarkdownView = ({
   sideBySide = false,
 }: MarkdownViewProps) => {
   const hostRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
   const valueRef = useRef(value);
   const changeRef = useRef(onChange);
@@ -162,6 +165,23 @@ export const MarkdownView = ({
   }, [body]);
 
   const words = useMemo(() => countWords(value), [value]);
+  const headings = useMemo(() => parseMarkdownHeadings(body), [body]);
+
+  const navigateToHeading = (heading: MarkdownHeading) => {
+    const view = viewRef.current;
+    if (view) {
+      view.dispatch({
+        selection: { anchor: heading.from },
+        effects: EditorView.scrollIntoView(heading.from, { y: "center" }),
+      });
+      view.focus();
+      return;
+    }
+    const target = rootRef.current?.querySelector<HTMLElement>(
+      `[data-heading-id="${CSS.escape(heading.id)}"]`,
+    );
+    target?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   const editorSurface = (
     <div
@@ -172,9 +192,12 @@ export const MarkdownView = ({
   );
 
   return (
-    <div className={cn("flex flex-col gap-2", className)}>
+    <div ref={rootRef} className={cn("flex flex-col gap-2", className)}>
       {showProperties && toolbarSettings.showProperties && (
         <PropertiesPanel value={value} onChange={onChange} />
+      )}
+      {showProperties && (
+        <TableOfContents headings={headings} onNavigate={navigateToHeading} />
       )}
       {/* {showToolbar && toolbarSettings.showToolbar && !isReading && (
         <EditorToolbar editor={api} groups={toolbarSettings.groups} />
