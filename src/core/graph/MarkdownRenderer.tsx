@@ -1,8 +1,16 @@
+import { useMemo, useState } from "react";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
 import rehypeRaw from 'rehype-raw';
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/shared/lib";
+import { Button } from "@/shared/ui/button";
+import {
+  flattenHeadings,
+  parseMarkdownHeadings,
+  type MarkdownHeading,
+} from "@/core/editor/headings";
 
 interface MarkdownRendererProps {
   content: string;
@@ -17,9 +25,23 @@ export const MarkdownRenderer = ({
   onTagClick,
   className 
 }: MarkdownRendererProps) => {
+  const headingTree = useMemo(() => parseMarkdownHeadings(content), [content]);
+  const headings = useMemo(() => flattenHeadings(headingTree), [headingTree]);
+  const [collapsed, setCollapsed] = useState<Set<string>>(() => new Set());
+
+  const visibleContent = useMemo(() => {
+    const ranges = headings
+      .filter((heading) => collapsed.has(heading.id) && heading.sectionTo > heading.contentFrom)
+      .map((heading) => ({ from: heading.contentFrom, to: heading.sectionTo }))
+      .sort((a, b) => b.from - a.from);
+    return ranges.reduce(
+      (markdown, range) => `${markdown.slice(0, range.from)}${markdown.slice(range.to)}`,
+      content,
+    );
+  }, [collapsed, content, headings]);
   
   // Process wikilinks
-  const processedContent = content.replace(
+  const processedContent = visibleContent.replace(
     /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g,
     (match, target, alias) => {
       const displayText = alias || target;
@@ -57,6 +79,62 @@ export const MarkdownRenderer = ({
     }
   };
 
+  const visibleHeadings = useMemo(
+    () => flattenHeadings(parseMarkdownHeadings(visibleContent)),
+    [visibleContent],
+  );
+  let headingIndex = 0;
+  const renderHeading = (level: number) => {
+    const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
+    return ({ children }: { children?: React.ReactNode }) => {
+      const visibleHeading = visibleHeadings[headingIndex];
+      headingIndex += 1;
+      const original = visibleHeading
+        ? headings.find(
+            (heading) =>
+              heading.level === visibleHeading.level &&
+              heading.text === visibleHeading.text &&
+              heading.from <= visibleHeading.from,
+          ) ?? visibleHeading
+        : undefined;
+      const id = original?.id ?? visibleHeading?.id;
+      const canCollapse = Boolean(original && original.sectionTo > original.contentFrom);
+      const isCollapsed = Boolean(id && collapsed.has(id));
+
+      return (
+        <HeadingTag id={id} data-heading-id={id}>
+          {canCollapse ? (
+            <Button
+              type="button"
+              variant="ghost"
+              className="group/heading h-auto w-full justify-start whitespace-normal px-0 py-0 text-left font-inherit"
+              aria-expanded={!isCollapsed}
+              aria-label={`${isCollapsed ? "Expand" : "Collapse"} ${original?.text}`}
+              onClick={() => {
+                if (!id) return;
+                setCollapsed((current) => {
+                  const next = new Set(current);
+                  if (next.has(id)) next.delete(id);
+                  else next.add(id);
+                  return next;
+                });
+              }}
+            >
+              {isCollapsed ? (
+                <ChevronRight className="mr-1 text-muted-foreground" />
+              ) : (
+                <ChevronDown className="mr-1 text-muted-foreground" />
+              )}
+              <span>{children}</span>
+            </Button>
+          ) : (
+            children
+          )}
+        </HeadingTag>
+      );
+    };
+  };
+
   return (
     <div 
       className={cn("prose prose-sm dark:prose-invert max-w-none", className)}
@@ -66,6 +144,12 @@ export const MarkdownRenderer = ({
         remarkPlugins={[remarkGfm, remarkBreaks]}
         rehypePlugins={[rehypeRaw]}
         components={{
+          h1: renderHeading(1),
+          h2: renderHeading(2),
+          h3: renderHeading(3),
+          h4: renderHeading(4),
+          h5: renderHeading(5),
+          h6: renderHeading(6),
           // Custom checkbox rendering
           input: ({ node, ...props }) => {
             if (props.type === 'checkbox') {
