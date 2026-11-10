@@ -560,3 +560,6 @@ export const ImportExportPanel = ({
 
   return content;
 };
+
+// Wave 2 Dual Named Export Compatibility
+export { ImportExportPanel as WorkspaceImportExportPanel };

@@ -2,7 +2,7 @@ import type { Completion, CompletionContext, CompletionResult } from "@codemirro
 import type { EditorView } from "@codemirror/view";
 import type { EditorState } from "@codemirror/state";
 import { fuzzyScore } from "@/global/utils/fuzzy";
-import { commandRegistry, type Command } from "@/domains/workspace/commands/CommandRegistry";
+import { commandRegistry, type Command } from "@/domains/workspace/shared/api/CommandRegistry";
 import { getActiveEditor } from "@/domains/editor/services/activeEditor";
 
 export interface SuggestSource {

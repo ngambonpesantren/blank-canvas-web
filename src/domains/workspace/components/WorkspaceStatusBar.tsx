@@ -103,3 +103,6 @@ export function StatusBar() {
     </div>
   );
 }
+
+// Wave 2 Dual Named Export Compatibility
+export { StatusBar as WorkspaceStatusBar };

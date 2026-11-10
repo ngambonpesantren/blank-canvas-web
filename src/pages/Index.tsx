@@ -1,4 +1,4 @@
-import { WorkspaceRoot } from "@/domains/workspace/WorkspaceRoot";
+import { WorkspaceRoot } from "@/domains/workspace/WorkspaceOrchestrator";
 
 const Index = () => <WorkspaceRoot />;
 

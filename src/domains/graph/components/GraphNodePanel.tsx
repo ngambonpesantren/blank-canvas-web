@@ -34,7 +34,7 @@ import { NoteWorkflowMenuSection } from "@/domains/collaboration/components/Note
 import { FolderOverviewEditor } from "@/domains/graph/components/GraphFolderOverviewEditor";
 import { DocumentVcsButtonGroup } from "@/domains/vcs/components/DocumentVcsButtonGroup";
 import { DocumentSharePopover } from "@/domains/collaboration/components/DocumentSharePopover";
-import { openGraphCanvas } from "@/domains/workspace/commands/graphCanvasCommands";
+import { openGraphCanvas } from "@/domains/workspace/shared/api/graphCanvasCommands";
 import { useNodeStore } from "@/shared/stores";
 import { NodeCitationsSection } from "@/domains/graph/components/GraphNodeCitationsSection";
 import {

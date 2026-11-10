@@ -306,3 +306,5 @@ export const MarkdownView = ({
     </div>
   );
 };
+
+export const EditorMarkdownView = MarkdownView;

@@ -633,3 +633,6 @@ export function SidebarPanel({
     </div>
   );
 }
+
+// Wave 2 Dual Named Export Compatibility
+export { SidebarPanel as WorkspaceSidebarPanel };

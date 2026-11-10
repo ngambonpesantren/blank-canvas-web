@@ -3,7 +3,7 @@ import { IconRibbon, type RibbonTool } from "@/domains/workspace/components/Work
 import { SidebarPanel } from "@/domains/workspace/components/WorkspaceSidebarPanel";
 import { useUIStore } from "@/shared/stores";
 import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
-import { openGraphCanvas } from "@/domains/workspace/commands/graphCanvasCommands";
+import { openGraphCanvas } from "@/domains/workspace/shared/api/graphCanvasCommands";
 import { useNodeStore, useVaultStore } from "@/shared/stores";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
 import { supabase } from "@/global/api/untypedSupabase";
@@ -149,3 +149,5 @@ export function Ribbon() {
     </>
   );
 }
+// Wave 2 Dual Named Export Compatibility
+export { Ribbon as WorkspaceRibbon };

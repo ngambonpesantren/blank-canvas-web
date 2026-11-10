@@ -61,7 +61,8 @@ export function GraphCanvasUtilityDock({
           >
             <Tooltip>
               <TooltipTrigger asChild>
-                <PopoverTrigger asChild>
+                <span className="inline-flex">
+                  <PopoverTrigger asChild>
                   <Button
                     type="button"
                     variant="ghost"
@@ -75,6 +76,7 @@ export function GraphCanvasUtilityDock({
                     <Layers className="h-3.5 w-3.5" />
                   </Button>
                 </PopoverTrigger>
+                </span>
               </TooltipTrigger>
               <TooltipContent side={tooltipSide} sideOffset={6} className="text-xs">
                 Hierarchy levels
@@ -102,7 +104,8 @@ export function GraphCanvasUtilityDock({
         >
           <Tooltip>
             <TooltipTrigger asChild>
-              <PopoverTrigger asChild>
+                <span className="inline-flex">
+                  <PopoverTrigger asChild>
                 <Button
                   type="button"
                   variant="ghost"
@@ -116,7 +119,8 @@ export function GraphCanvasUtilityDock({
                   <Map className="h-3.5 w-3.5" />
                 </Button>
               </PopoverTrigger>
-            </TooltipTrigger>
+                </span>
+              </TooltipTrigger>
             <TooltipContent side={tooltipSide} sideOffset={6} className="text-xs">
               Mini-map view
             </TooltipContent>

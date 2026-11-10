@@ -12,7 +12,7 @@ import {
   commandRegistry,
   formatHotkey,
   type Command,
-} from "@/domains/workspace/commands/CommandRegistry";
+} from "@/domains/workspace/shared/api/CommandRegistry";
 import { subscribeActiveEditor } from "@/domains/editor/services/activeEditor";
 import { onOpenCommandPalette } from "@/domains/settings/command-palette/paletteEvents";
 import { useFeatureEnabled } from "@/domains/settings/plugins/useFeatureEnabled";

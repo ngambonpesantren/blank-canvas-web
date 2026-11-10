@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { NodePanel } from "@/domains/graph/components/GraphNodePanel";
 import { useNodeStore, useUIStore } from "@/shared/stores";
 import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
-import type { WorkspaceLeaf } from "@/domains/workspace/types";
+import type { WorkspaceLeaf } from "@/domains/workspace/shared/utils/workspace.types";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
 import { useMetadataVersion } from "@/domains/metadata/useMetadataCache";
 import {

@@ -184,21 +184,21 @@ class DynamicPreloadRegistry {
         name: 'Markdown Note Leaf',
         friendlyMessage: 'Memuat modul tampilan dokumen catatan...',
         category: 'workspace',
-        loader: () => import('@/domains/workspace/views/MarkdownLeaf'),
+        loader: () => import('@/domains/workspace/components/WorkspaceMarkdownLeaf'),
       },
       {
         id: 'ws-leaf-graph',
         name: 'Graph Visualization Leaf',
         friendlyMessage: 'Memuat modul visualisasi graf interaktif...',
         category: 'workspace',
-        loader: () => import('@/domains/workspace/views/GraphLeaf'),
+        loader: () => import('@/domains/workspace/components/WorkspaceGraphLeaf'),
       },
       {
         id: 'ws-leaf-backlinks',
         name: 'Backlinks & Mentions Leaf',
         friendlyMessage: 'Memuat modul penjelajah relasi backlinks...',
         category: 'workspace',
-        loader: () => import('@/domains/workspace/views/BacklinksLeaf'),
+        loader: () => import('@/domains/workspace/components/WorkspaceBacklinksLeaf'),
       },
 
       // --- CODE EDITOR & COMPILERS ---

@@ -1,4 +1,4 @@
-import { commandRegistry, type Command } from "@/domains/workspace/commands/CommandRegistry";
+import { commandRegistry, type Command } from "@/domains/workspace/shared/api/CommandRegistry";
 import type { EditorApi } from "@/domains/editor/types";
 import { parseFootnotes } from "@/domains/editor/footnotes/footnoteParser";
 

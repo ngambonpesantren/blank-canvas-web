@@ -1,5 +1,5 @@
 import React from "react";
-import type { LeafViewProps } from "@/domains/workspace/registry/ViewRegistry";
+import type { LeafViewProps } from "@/domains/workspace/components/WorkspaceViewRegistry";
 import { GraphOrchestrator } from "@/domains/graph/GraphOrchestrator";
 
 export const GraphLeaf: React.FC<LeafViewProps> = ({ leaf, isActive = true }) => {

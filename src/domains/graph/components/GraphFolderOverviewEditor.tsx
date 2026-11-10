@@ -40,7 +40,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/global/utils";
-import { openGraphCanvas } from "@/domains/workspace/commands/graphCanvasCommands";
+import { openGraphCanvas } from "@/domains/workspace/shared/api/graphCanvasCommands";
 
 interface FolderOverviewEditorProps {
   folderNode: Node;

@@ -29,3 +29,6 @@ export function VaultAccessDenied() {
     </div>
   );
 }
+
+// Wave 2 Dual Named Export Compatibility
+export { VaultAccessDenied as WorkspaceVaultAccessDenied };

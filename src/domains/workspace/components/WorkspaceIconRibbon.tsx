@@ -123,3 +123,6 @@ export function IconRibbon({
     </div>
   );
 }
+
+// Wave 2 Dual Named Export Compatibility
+export { IconRibbon as WorkspaceIconRibbon };

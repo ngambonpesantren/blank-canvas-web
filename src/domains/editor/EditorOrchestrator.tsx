@@ -1,5 +1,5 @@
 import React from "react";
-import { EditorMarkdownView } from "@/domains/editor/components/EditorMarkdownView";
+import { MarkdownView as EditorMarkdownView } from "@/domains/editor/components/EditorMarkdownView";
 
 export interface EditorOrchestratorProps {
   noteId?: string;

@@ -8,7 +8,7 @@ import {
 } from "@/global/ui/resizable";
 import { WorkspaceGroup } from "@/domains/workspace/components/WorkspaceGroup";
 import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
-import type { WorkspaceNode } from "@/domains/workspace/types";
+import type { WorkspaceNode } from "@/domains/workspace/shared/utils/workspace.types";
 
 export function WorkspaceTree({ node }: { node: WorkspaceNode }) {
   const activeGroupId = useWorkspaceStore((s) => s.activeGroupId);

@@ -16,9 +16,9 @@ import {
 } from "lucide-react";
 import { useUIStore } from "@/shared/stores"; // <-- PASTIKAN DI-IMPORT
 import { Button } from "@/global/ui/button";
-import { LeafView } from "@/domains/workspace/registry/ViewRegistry";
+import { LeafView } from "@/domains/workspace/components/WorkspaceViewRegistry";
 import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
-import type { WorkspaceGroup } from "@/domains/workspace/types";
+import type { WorkspaceGroup } from "@/domains/workspace/shared/utils/workspace.types";
 import { TabContextMenu } from "@/domains/workspace/components/WorkspaceTabContextMenu";
 
 type Edge = "left" | "right" | "top" | "bottom" | null;

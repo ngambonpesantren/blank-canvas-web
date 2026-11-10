@@ -166,3 +166,5 @@ export const ExplorerContextMenu: React.FC<ExplorerContextMenuProps> = ({
     </>
   );
 };
+// Wave 2 Dual Named Export Compatibility
+export { ExplorerContextMenu as WorkspaceExplorerContextMenu };

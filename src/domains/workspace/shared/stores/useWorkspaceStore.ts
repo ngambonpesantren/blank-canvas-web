@@ -12,7 +12,7 @@ import type {
   WorkspaceLeaf,
   WorkspaceNode,
   WorkspaceSplit,
-} from '@/domains/workspace/types';
+} from '@/domains/workspace/shared/utils/workspace.types';
 
 const uid = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2, 9)}`;
 

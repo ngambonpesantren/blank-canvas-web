@@ -19,7 +19,7 @@ import { getFileSystemService } from "@/domains/vault/persistence/FileSystemServ
 import { importExportService } from "@/domains/vault/import-export/services/ImportExportService";
 import { apiKeyService } from "@/domains/settings/profile/services/ApiKeyService";
 import { supabase } from "@/global/api/supabaseClient";
-import { commandRegistry } from "@/domains/workspace/commands/CommandRegistry";
+import { commandRegistry } from "@/domains/workspace/shared/api/CommandRegistry";
 import { registerEditorCommands } from "@/domains/editor/commands/editorCommands";
 import { syncEngine } from "@/domains/sync/SyncEngine";
 import { syncCoordinator } from "@/domains/sync/SyncCoordinator";

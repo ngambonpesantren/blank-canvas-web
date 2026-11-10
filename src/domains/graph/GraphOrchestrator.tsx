@@ -15,7 +15,7 @@ import { useGraphStore, useNodeStore } from "@/shared/stores";
 import { useGraphData } from "@/domains/graph/shared/hooks/useGraphData";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
 import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
-import type { ViewState } from "@/domains/workspace/types";
+import type { ViewState } from "@/domains/workspace/shared/utils/workspace.types";
 import {
   moveNodeAction,
   deleteNodeAction,

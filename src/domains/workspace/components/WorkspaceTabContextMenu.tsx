@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
 import { useNodeStore } from "@/domains/graph/shared/stores/useNodeStore";
 import { useUIStore } from "@/shared/stores";
-import type { WorkspaceGroup, WorkspaceLeaf } from "@/domains/workspace/types";
+import type { WorkspaceGroup, WorkspaceLeaf } from "@/domains/workspace/shared/utils/workspace.types";
 
 interface TabContextMenuProps {
   leaf: WorkspaceLeaf;
@@ -181,3 +181,5 @@ export const TabContextMenu: React.FC<TabContextMenuProps> = ({
     </ContextMenu>
   );
 };
+// Wave 2 Dual Named Export Compatibility
+export { TabContextMenu as WorkspaceTabContextMenu };

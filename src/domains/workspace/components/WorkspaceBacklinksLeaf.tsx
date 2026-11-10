@@ -2,7 +2,7 @@ import { BacklinksView } from "@/domains/metadata/backlinks/BacklinksView";
 import { useNodeStore } from "@/shared/stores";
 import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
 import { linkMentionAction } from "@/domains/workspace/shared/api/workspaceActions";
-import type { WorkspaceLeaf } from "@/domains/workspace/types";
+import type { WorkspaceLeaf } from "@/domains/workspace/shared/utils/workspace.types";
 
 export default function BacklinksLeaf({ leaf }: { leaf: WorkspaceLeaf }) {
   const nodes = useNodeStore((s) => s.nodes);

@@ -2,7 +2,7 @@
  * Open (or focus) a graph tab in a given canvas mode, plus the global
  * shortcuts Mod-Shift-G (graph) and Mod-Shift-M (mindmap).
  */
-import { commandRegistry } from "@/domains/workspace/commands/CommandRegistry";
+import { commandRegistry } from "@/domains/workspace/shared/api/CommandRegistry";
 import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
 
 export function openGraphCanvas(canvasMode: "graph" | "mindmap") {
