@@ -40,8 +40,8 @@ export function GraphCanvasUtilityDock({
   const panelWidth = Math.max(180, Math.min(224, miniMapProps.viewportWidth - 32));
   const panelHeight = Math.max(140, Math.min(260, miniMapProps.viewportHeight - 80));
 
-  const tooltipSide = isVertical ? "left" : "bottom";
   const popoverSide = isVertical ? "left" : "bottom";
+  const tooltipSide = isVertical ? "left" : "bottom";
 
   return (
     <TooltipProvider delayDuration={250}>
@@ -52,7 +52,7 @@ export function GraphCanvasUtilityDock({
           className,
         )}
       >
-        {/* 1. HIERARCHY LEVELS POPOVER (Mandiri tanpa Popper ganda) */}
+        {/* 1. HIERARCHY LEVELS POPOVER (Bebas dari nested Radix Tooltip) */}
         {showLevels && (
           <Popover
             open={activePopover === "levels"}
@@ -88,7 +88,7 @@ export function GraphCanvasUtilityDock({
           </Popover>
         )}
 
-        {/* 2. MINIMAP POPOVER (Mandiri tanpa Popper ganda) */}
+        {/* 2. MINIMAP POPOVER (Bebas dari nested Radix Tooltip) */}
         <Popover
           open={activePopover === "minimap"}
           onOpenChange={(open) => setActivePopover(open ? "minimap" : null)}
