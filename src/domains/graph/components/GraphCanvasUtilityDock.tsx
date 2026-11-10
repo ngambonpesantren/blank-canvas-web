@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Frame, Focus, UnfoldVertical, Layers, Map, Play, Pause } from "lucide-react";
 import { Button } from "@/global/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/global/ui/popover";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/global/ui/tooltip";
 import { cn } from "@/global/utils/cn";
 import { GraphMiniMap, type GraphMiniMapProps } from "@/domains/graph/components/GraphMiniMap";
 import { GraphLevelLegend } from "@/domains/graph/components/GraphLevelLegend";
@@ -39,59 +38,21 @@ export function GraphCanvasUtilityDock({
 
   const panelWidth = Math.max(180, Math.min(224, miniMapProps.viewportWidth - 32));
   const panelHeight = Math.max(140, Math.min(260, miniMapProps.viewportHeight - 80));
-
   const popoverSide = isVertical ? "left" : "bottom";
-  const tooltipSide = isVertical ? "left" : "bottom";
 
   return (
-    <TooltipProvider delayDuration={250}>
-      <div
-        className={cn(
-          "pointer-events-auto absolute top-16 right-3 z-30 rounded-lg border border-border/70 bg-card/90 p-1 shadow-lg shadow-black/15 backdrop-blur-md sm:top-16 sm:right-4",
-          isVertical ? "flex flex-col items-center gap-1" : "flex items-center gap-1",
-          className,
-        )}
-      >
-        {/* 1. HIERARCHY LEVELS POPOVER (Bebas dari nested Radix Tooltip) */}
-        {showLevels && (
-          <Popover
-            open={activePopover === "levels"}
-            onOpenChange={(open) => setActivePopover(open ? "levels" : null)}
-          >
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  "h-7 w-7 rounded-md text-muted-foreground hover:text-foreground",
-                  activePopover === "levels" && "bg-accent text-accent-foreground",
-                )}
-                aria-label="Hierarchy levels"
-                title="Hierarchy levels"
-              >
-                <Layers className="h-3.5 w-3.5" />
-              </Button>
-            </PopoverTrigger>
-
-            <PopoverContent
-              align={isVertical ? "start" : "end"}
-              side={popoverSide}
-              sideOffset={8}
-              className="w-56 p-2 rounded-lg border-border/80 bg-popover/95 backdrop-blur-md shadow-xl"
-            >
-              <div className="border-b border-border/40 pb-1.5 px-1 mb-1">
-                <p className="text-[11px] font-semibold">Hierarchy Depths</p>
-              </div>
-              <GraphLevelLegend depths={depths} hierarchy={hierarchy} />
-            </PopoverContent>
-          </Popover>
-        )}
-
-        {/* 2. MINIMAP POPOVER (Bebas dari nested Radix Tooltip) */}
+    <div
+      className={cn(
+        "pointer-events-auto absolute top-16 right-3 z-30 rounded-lg border border-border/70 bg-card/90 p-1 shadow-lg shadow-black/15 backdrop-blur-md sm:top-16 sm:right-4",
+        isVertical ? "flex flex-col items-center gap-1" : "flex items-center gap-1",
+        className,
+      )}
+    >
+      {/* 1. HIERARCHY LEVELS POPOVER */}
+      {showLevels && (
         <Popover
-          open={activePopover === "minimap"}
-          onOpenChange={(open) => setActivePopover(open ? "minimap" : null)}
+          open={activePopover === "levels"}
+          onOpenChange={(open) => setActivePopover(open ? "levels" : null)}
         >
           <PopoverTrigger asChild>
             <Button
@@ -100,14 +61,49 @@ export function GraphCanvasUtilityDock({
               size="icon"
               className={cn(
                 "h-7 w-7 rounded-md text-muted-foreground hover:text-foreground",
-                activePopover === "minimap" && "bg-accent text-accent-foreground",
+                activePopover === "levels" && "bg-accent text-accent-foreground",
               )}
-              aria-label="Mini-map"
-              title="Mini-map view"
+              aria-label="Hierarchy levels"
+              title="Hierarchy levels"
             >
-              <Map className="h-3.5 w-3.5" />
+              <Layers className="h-3.5 w-3.5" />
             </Button>
           </PopoverTrigger>
+
+          <PopoverContent
+            align={isVertical ? "start" : "end"}
+            side={popoverSide}
+            sideOffset={8}
+            className="w-56 p-2 rounded-lg border-border/80 bg-popover/95 backdrop-blur-md shadow-xl"
+          >
+            <div className="border-b border-border/40 pb-1.5 px-1 mb-1">
+              <p className="text-[11px] font-semibold">Hierarchy Depths</p>
+            </div>
+            <GraphLevelLegend depths={depths} hierarchy={hierarchy} />
+          </PopoverContent>
+        </Popover>
+      )}
+
+      {/* 2. MINIMAP POPOVER */}
+      <Popover
+        open={activePopover === "minimap"}
+        onOpenChange={(open) => setActivePopover(open ? "minimap" : null)}
+      >
+        <PopoverTrigger asChild>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className={cn(
+              "h-7 w-7 rounded-md text-muted-foreground hover:text-foreground",
+              activePopover === "minimap" && "bg-accent text-accent-foreground",
+            )}
+            aria-label="Mini-map"
+            title="Mini-map view"
+          >
+            <Map className="h-3.5 w-3.5" />
+          </Button>
+        </PopoverTrigger>
 
           <PopoverContent
             align={isVertical ? "start" : "end"}
@@ -118,98 +114,73 @@ export function GraphCanvasUtilityDock({
           >
             <GraphMiniMap {...miniMapProps} />
           </PopoverContent>
-        </Popover>
+      </Popover>
 
-        {/* 3. TIME-LAPSE PLAYBACK */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className={cn(
-                "h-7 w-7 rounded-md text-muted-foreground hover:text-foreground transition-colors",
-                isTimeLapseActive && "text-primary bg-primary/10",
-              )}
-              aria-label={isTimeLapseActive ? "Pause time-lapse" : "Play time-lapse"}
-              onClick={toggleTimeLapse}
-            >
-              {isTimeLapseActive ? (
-                <Pause className="h-3.5 w-3.5 text-primary animate-pulse" />
-              ) : (
-                <Play className="h-3.5 w-3.5" />
-              )}
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side={tooltipSide} sideOffset={6} className="text-xs">
-            {isTimeLapseActive ? "Pause evolution replay" : "Replay vault evolution"}
-          </TooltipContent>
-        </Tooltip>
-
-        <div className="w-4 h-px border border-t bg-border/60 my-0.5" />
-
-        {/* 4. ZOOM TO FIT */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="h-7 w-7 rounded-md text-muted-foreground hover:text-foreground"
-              aria-label="Zoom to fit"
-              onClick={() => onSmartZoom("fit")}
-            >
-              <Frame className="h-3.5 w-3.5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side={tooltipSide} sideOffset={6} className="text-xs">
-            Zoom to fit screen
-          </TooltipContent>
-        </Tooltip>
-
-        {/* 5. ZOOM TO SELECTION */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="h-7 w-7 rounded-md text-muted-foreground hover:text-foreground"
-              aria-label="Zoom to selection"
-              onClick={() => onSmartZoom("selection")}
-            >
-              <Focus className="h-3.5 w-3.5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side={tooltipSide} sideOffset={6} className="text-xs">
-            Focus selection
-          </TooltipContent>
-        </Tooltip>
-
-        {/* 6. SHOW EVERYTHING (EXPAND ALL) */}
-        {(collapsedCount > 0 || focused) && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="h-7 w-7 rounded-md text-primary animate-in fade-in zoom-in-95 duration-150"
-                aria-label="Show everything"
-                onClick={() => {
-                  expandAll();
-                  setFocusedRoot(null);
-                }}
-              >
-                <UnfoldVertical className="h-3.5 w-3.5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side={tooltipSide} sideOffset={6} className="text-xs">
-              Show everything ({collapsedCount} collapsed)
-            </TooltipContent>
-          </Tooltip>
+      {/* 3. TIME-LAPSE PLAYBACK */}
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
+        className={cn(
+          "h-7 w-7 rounded-md text-muted-foreground hover:text-foreground transition-colors",
+          isTimeLapseActive && "text-primary bg-primary/10",
         )}
-      </div>
-    </TooltipProvider>
+        aria-label={isTimeLapseActive ? "Pause evolution replay" : "Replay vault evolution"}
+        title={isTimeLapseActive ? "Pause evolution replay" : "Replay vault evolution"}
+        onClick={toggleTimeLapse}
+      >
+        {isTimeLapseActive ? (
+          <Pause className="h-3.5 w-3.5 text-primary animate-pulse" />
+        ) : (
+          <Play className="h-3.5 w-3.5" />
+        )}
+      </Button>
+
+      <div className="w-4 h-px border border-t bg-border/60 my-0.5" />
+
+      {/* 4. ZOOM TO FIT */}
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
+        className="h-7 w-7 rounded-md text-muted-foreground hover:text-foreground"
+        aria-label="Zoom to fit screen"
+        title="Zoom to fit screen"
+        onClick={() => onSmartZoom("fit")}
+      >
+        <Frame className="h-3.5 w-3.5" />
+      </Button>
+
+      {/* 5. ZOOM TO SELECTION */}
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
+        className="h-7 w-7 rounded-md text-muted-foreground hover:text-foreground"
+        aria-label="Focus selection"
+        title="Focus selection"
+        onClick={() => onSmartZoom("selection")}
+      >
+        <Focus className="h-3.5 w-3.5" />
+      </Button>
+
+      {/* 6. SHOW EVERYTHING (EXPAND ALL) */}
+      {(collapsedCount > 0 || focused) && (
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="h-7 w-7 rounded-md text-primary animate-in fade-in zoom-in-95 duration-150"
+          aria-label={`Show everything (${collapsedCount} collapsed)`}
+          title={`Show everything (${collapsedCount} collapsed)`}
+          onClick={() => {
+            expandAll();
+            setFocusedRoot(null);
+          }}
+        >
+          <UnfoldVertical className="h-3.5 w-3.5" />
+        </Button>
+      )}
+    </div>
   );
 }

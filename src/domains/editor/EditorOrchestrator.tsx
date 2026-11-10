@@ -24,6 +24,8 @@ export const EditorOrchestrator: React.FC<EditorOrchestratorProps> = ({
   initialContent = "",
   ...rest
 }) => {
+  // Adapter controlled vs uncontrolled:
+  // Jika parent tidak memasok value/onChange, orchestrator mengelola state string lokal.
   const [internalValue, setInternalValue] = useState(initialContent);
 
   const value = propValue !== undefined ? propValue : internalValue;
