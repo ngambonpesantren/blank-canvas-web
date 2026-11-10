@@ -12,7 +12,7 @@ import {
 } from "@/global/ui/dialog";
 import { Badge } from "@/global/ui/badge";
 import { NoteRecord } from "@/types/collaboration";
-import { NoteService } from "@/domains/vault/services/NoteService";
+import { NoteService } from "@/domains/vault/shared/api/NoteService";
 import { useVaultStore } from "@/domains/vault/shared/stores/useVaultStore";
 import { useVaultPermission } from "@/domains/auth/hooks/useVaultPermission";
 import { TwoStageLinterModal } from "@/domains/collaboration/components/TwoStageLinterModal";

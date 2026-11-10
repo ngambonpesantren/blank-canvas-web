@@ -13,10 +13,10 @@ import {
   formatHotkey,
   type Command,
 } from "@/domains/workspace/shared/api/CommandRegistry";
-import { subscribeActiveEditor } from "@/domains/editor/services/activeEditor";
+import { subscribeActiveEditor } from "@/domains/editor/shared/api/activeEditor";
 import { onOpenCommandPalette } from "@/domains/settings/command-palette/paletteEvents";
 import { useFeatureEnabled } from "@/domains/settings/plugins/useFeatureEnabled";
-import type { EditorApi } from "@/domains/editor/types";
+import type { EditorApi } from "@/domains/editor/shared/utils/editor.types";
 
 /**
  * Ctrl/Cmd+P command palette backed by the CommandRegistry.

@@ -4,7 +4,7 @@ import { useNodeStore } from "@/shared/stores";
 import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
 import { useVaultStore } from "@/domains/vault/shared/stores/useVaultStore";
 import { useVaultPermission } from "@/domains/auth/hooks/useVaultPermission";
-import { NoteService } from "@/domains/vault/services/NoteService";
+import { NoteService } from "@/domains/vault/shared/api/NoteService";
 import { updateNodeAction, deleteNodeAction } from "@/domains/workspace/shared/api/workspaceActions";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
 import { BulkPublishModal } from "@/domains/collaboration/components/BulkPublishModal";

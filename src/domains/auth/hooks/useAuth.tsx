@@ -9,7 +9,7 @@ import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/global/api/supabaseClient";
 import { toast } from "sonner";
 import type { Json } from "@/global/api/supabaseTypes";
-import { vaultSyncService } from "@/domains/vault/services/VaultSyncService";
+import { vaultSyncService } from "@/domains/vault/shared/api/VaultSyncService";
 
 interface Profile {
   id: string;

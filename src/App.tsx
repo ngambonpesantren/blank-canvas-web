@@ -7,7 +7,7 @@ import { ErrorBoundary } from "@/global/components/ErrorBoundary";
 import { AuthProvider } from "@/domains/auth/hooks/useAuth";
 import { ProtectedRoute } from "@/domains/auth/components/ProtectedRoute";
 import { DevAuthBanner } from "@/domains/auth/components/DevAuthBanner";
-import { EventDebugPanel } from "@/domains/vault/debug/EventDebugPanel";
+import { EventDebugPanel } from "@/domains/vault/components/VaultEventDebugPanel";
 import { CommandPalette } from "@/domains/settings/command-palette/CommandPalette";
 import { Suspense, lazy } from "react";
 

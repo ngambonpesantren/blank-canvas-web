@@ -6,7 +6,7 @@
 
 import { foldService, foldGutter, codeFolding } from "@codemirror/language";
 import type { Extension } from "@codemirror/state";
-import { parseHeadings, type HeadingNode } from "@/domains/editor/headings/headingTree";
+import { parseHeadings, type HeadingNode } from "@/domains/editor/shared/utils/headingTree";
 
 let cachedDoc = "";
 let cachedHeadings: HeadingNode[] = [];

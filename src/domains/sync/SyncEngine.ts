@@ -5,8 +5,8 @@
  */
 
 import { supabase } from "@/global/api/supabaseClient";
-import { cloudVaultService } from "@/domains/vault/services/CloudVaultService";
-import type { VaultManager } from "@/domains/vault/services/VaultManager";
+import { cloudVaultService } from "@/domains/vault/shared/api/CloudVaultService";
+import type { VaultManager } from "@/domains/vault/shared/api/VaultManager";
 import { eventBus, EventType } from "@/global/stores/events";
 import { syncQueue, type QueuedVaultPush } from "@/domains/sync/sync-queue";
 

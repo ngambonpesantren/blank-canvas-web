@@ -10,8 +10,8 @@
  */
 
 import type { GraphService } from '@/domains/graph/shared/api/GraphService';
-import type { VaultHistory } from '@/domains/vault/services/VaultHistory';
-import type { FileSystemService } from '@/domains/vault/persistence/FileSystemService';
+import type { VaultHistory } from '@/domains/vault/shared/api/VaultHistory';
+import type { FileSystemService } from '@/domains/vault/shared/api/FileSystemService';
 
 export interface Vault {
   id: string;

@@ -9,7 +9,7 @@ import { PublicReaderService } from "@/domains/public-reader/services/PublicRead
 import { cn } from "@/global/utils";
 import { Lock, FileText } from "lucide-react";
 import { InteractiveTable } from "@/domains/editor/components/EditorInteractiveTable";
-import { extractTableDataFromHastNode } from "@/domains/editor/table/tableParser";
+import { extractTableDataFromHastNode } from "@/domains/editor/shared/utils/tableParser";
 
 interface PublicMarkdownReaderProps {
   content: string;

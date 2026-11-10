@@ -7,7 +7,7 @@
  */
 
 import { supabase } from "@/global/api/untypedSupabase";
-import { NoteService } from "@/domains/vault/services/NoteService";
+import { NoteService } from "@/domains/vault/shared/api/NoteService";
 import type { NoteRecord } from "@/types/collaboration";
 
 export interface MediaAssetAudit {

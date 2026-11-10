@@ -3,7 +3,7 @@ import type { EditorView } from "@codemirror/view";
 import type { EditorState } from "@codemirror/state";
 import { fuzzyScore } from "@/global/utils/fuzzy";
 import { commandRegistry, type Command } from "@/domains/workspace/shared/api/CommandRegistry";
-import { getActiveEditor } from "@/domains/editor/services/activeEditor";
+import { getActiveEditor } from "@/domains/editor/shared/api/activeEditor";
 
 export interface SuggestSource {
   /** Note / media titles used by `[[` wikilink completion. */

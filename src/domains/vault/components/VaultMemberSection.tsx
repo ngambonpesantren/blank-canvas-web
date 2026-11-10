@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from "@/global/ui/select";
 import { toast } from "sonner";
-import { VaultMemberService, type UserSearchResult } from "@/domains/vault/services/VaultMemberService";
+import { VaultMemberService, type UserSearchResult } from "@/domains/vault/shared/api/VaultMemberService";
 import type { VaultMemberRole } from "@/types/collaboration";
 import type { VaultMemberWithProfile } from "@/types/admin";
 

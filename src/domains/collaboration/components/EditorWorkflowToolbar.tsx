@@ -10,7 +10,7 @@ import {
 import { NoteRecord, NoteStatus } from "@/types/collaboration";
 import { TwoStageLinterModal } from "@/domains/collaboration/components/TwoStageLinterModal";
 import { DiffViewer } from "@/domains/collaboration/components/DiffViewer";
-import { NoteService } from "@/domains/vault/services/NoteService";
+import { NoteService } from "@/domains/vault/shared/api/NoteService";
 import { useVaultPermission } from "@/domains/auth/hooks/useVaultPermission";
 import { toast } from "sonner";
 import {

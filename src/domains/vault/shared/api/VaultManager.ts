@@ -10,13 +10,13 @@
  */
 
 import { GraphService } from "@/domains/graph/shared/api/GraphService";
-import { VaultStorage } from "@/domains/vault/services/VaultStorage";
-import { VaultHistory } from "@/domains/vault/services/VaultHistory";
-import { VaultBackupService } from "@/domains/vault/services/VaultBackupService";
-import type { FileSystemService } from "@/domains/vault/persistence/FileSystemService";
-import { getFileSystemService } from "@/domains/vault/persistence/FileSystemServiceSingleton";
-import { directoryHandleStore } from "@/domains/vault/persistence/directoryHandleStore";
-import { hasGrantedPermission } from "@/domains/vault/repository/capabilities";
+import { VaultStorage } from "@/domains/vault/shared/api/VaultStorage";
+import { VaultHistory } from "@/domains/vault/shared/api/VaultHistory";
+import { VaultBackupService } from "@/domains/vault/shared/api/VaultBackupService";
+import type { FileSystemService } from "@/domains/vault/shared/api/FileSystemService";
+import { getFileSystemService } from "@/domains/vault/shared/api/FileSystemServiceSingleton";
+import { directoryHandleStore } from "@/domains/vault/shared/api/directoryHandleStore";
+import { hasGrantedPermission } from "@/domains/vault/shared/api/repositoryCapabilities";
 import { writeVaultConfigFile } from "@/domains/settings/config/VaultConfigFile";
 import {
   BackupConfig,
@@ -24,15 +24,15 @@ import {
   VaultGraphConfig,
   VaultConfigSnapshot,
   migrateLegacyStrategy,
-} from "@/domains/vault/types";
+} from "@/domains/vault/shared/utils/vault.types";
 import {
   emitVaultCreated,
   emitVaultDeleted,
   emitVaultRenamed,
   emitVaultSwitched,
 } from "@/global/stores/events";
-import { VaultValidationService } from "@/domains/vault/services/VaultValidationService";
-import { cloudVaultService } from "@/domains/vault/services/CloudVaultService";
+import { VaultValidationService } from "@/domains/vault/shared/api/VaultValidationService";
+import { cloudVaultService } from "@/domains/vault/shared/api/CloudVaultService";
 
 
 export interface Vault {
@@ -476,7 +476,7 @@ export class VaultManager {
     // reappear on another. Best-effort: offline deletion is left to the caller.
     if (cloudId && wasCloudVault && navigator.onLine) {
       try {
-        const { cloudVaultService } = await import("@/domains/vault/services/CloudVaultService");
+        const { cloudVaultService } = await import("@/domains/vault/shared/api/CloudVaultService");
         await cloudVaultService.deleteVault(cloudId);
       } catch (error) {
         console.warn("Cloud vault deletion failed:", error);

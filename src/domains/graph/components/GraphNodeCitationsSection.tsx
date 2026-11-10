@@ -22,7 +22,7 @@ import {
   parseFootnotes,
   upsertFootnoteDefinition,
   deleteFootnoteDefinition,
-} from "@/domains/editor/footnotes/footnoteParser";
+} from "@/domains/editor/shared/utils/footnoteParser";
 
 export interface NodeCitationsSectionProps {
   content: string;

@@ -42,7 +42,7 @@ import {
   redoActiveEditor,
   canUndoActiveEditor,
   canRedoActiveEditor,
-} from "@/domains/editor/services/activeEditor";
+} from "@/domains/editor/shared/api/activeEditor";
 
 interface Node {
   id: string;

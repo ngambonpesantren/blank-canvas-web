@@ -12,14 +12,14 @@ import {
 } from "@/shared/stores";
 import { extractMentions } from "@/domains/metadata/markdown-parser";
 import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
-import { getVaultManager } from "@/domains/vault/services/VaultManagerSingleton";
+import { getVaultManager } from "@/domains/vault/shared/api/VaultManagerSingleton";
 import {
   deleteNodeFromDisk,
   moveNodeOnDisk,
   scheduleNodeWrite,
   writeAllNodesToDisk,
   writeNodeToDisk,
-} from "@/domains/vault/persistence/VaultFileWriter";
+} from "@/domains/vault/shared/api/VaultFileWriter";
 import {
   enrichNode,
   metadataCache,
@@ -27,7 +27,7 @@ import {
 import {
   linkMentions,
   renameNode,
-} from "@/domains/vault/services/FileManager";
+} from "@/domains/vault/shared/api/FileManager";
 import { isFeatureEnabled } from "@/domains/settings/plugins/feature-toggles";
 import { syncEngine } from "@/domains/sync/SyncEngine";
 import { useStatusNoticeStore } from "@/shared/stores/useStatusNoticeStore";

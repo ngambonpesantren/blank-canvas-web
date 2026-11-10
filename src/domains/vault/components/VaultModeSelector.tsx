@@ -17,8 +17,8 @@ import { Badge } from '@/global/ui/badge';
 import { Checkbox } from '@/global/ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/global/ui/dialog';
 import { Alert, AlertDescription } from '@/global/ui/alert';
-import { pickVaultFolder, supportsFolderPicker } from '@/domains/vault/repository/capabilities';
-import { VaultValidationService } from '@/domains/vault/services/VaultValidationService';
+import { pickVaultFolder, supportsFolderPicker } from '@/domains/vault/shared/api/repositoryCapabilities';
+import { VaultValidationService } from '@/domains/vault/shared/api/VaultValidationService';
 
 type VaultKind = 'folder' | 'cloud';
 type Step = 'kind' | 'folder-action' | 'name';

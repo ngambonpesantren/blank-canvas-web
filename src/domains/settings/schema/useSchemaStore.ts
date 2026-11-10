@@ -7,7 +7,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { getVaultManager } from "@/domains/vault/services/VaultManagerSingleton";
+import { getVaultManager } from "@/domains/vault/shared/api/VaultManagerSingleton";
 import { DEFAULT_SCHEMA, normalizeSchema } from "@/domains/settings/schema/schema-registry";
 import type { PropertyRule, VaultSchema } from "@/domains/settings/schema/types";
 

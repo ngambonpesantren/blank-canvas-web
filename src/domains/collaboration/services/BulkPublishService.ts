@@ -9,8 +9,8 @@
  */
 
 import { supabase } from "@/global/api/supabaseClient";
-import { NoteService } from "@/domains/vault/services/NoteService";
-import { AssetBundlerService } from "@/domains/vault/services/AssetBundlerService";
+import { NoteService } from "@/domains/vault/shared/api/NoteService";
+import { AssetBundlerService } from "@/domains/vault/shared/api/AssetBundlerService";
 import type { Node } from "@/shared/stores/types";
 import type { ExplorerNode } from "@/domains/workspace/components/WorkspaceFileExplorerTree";
 

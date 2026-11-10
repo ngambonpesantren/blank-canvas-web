@@ -11,16 +11,16 @@ import type {
   VaultRecord,
   VaultRepository,
   VaultSummary,
-} from "@/domains/vault/repository/types";
+} from "@/domains/vault/shared/api/repositoryTypes";
 import {
   FOLDER_UNSUPPORTED_REASON,
   supportsFolderPicker,
   supportsIndexedDb,
   supportsPersistentHandles,
-} from "@/domains/vault/repository/capabilities";
-import { VaultStorage } from "@/domains/vault/services/VaultStorage";
-import { cloudVaultService } from "@/domains/vault/services/CloudVaultService";
-import { getFileSystemService } from "@/domains/vault/persistence/FileSystemServiceSingleton";
+} from "@/domains/vault/shared/api/repositoryCapabilities";
+import { VaultStorage } from "@/domains/vault/shared/api/VaultStorage";
+import { cloudVaultService } from "@/domains/vault/shared/api/CloudVaultService";
+import { getFileSystemService } from "@/domains/vault/shared/api/FileSystemServiceSingleton";
 
 // ------------------------------------------------------------------- memory
 

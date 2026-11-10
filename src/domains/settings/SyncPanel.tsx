@@ -11,7 +11,7 @@ import {
   clearAllCaches,
   formatBytes,
   getCacheStorageInfo,
-} from "@/domains/vault/persistence/offline-storage";
+} from "@/domains/vault/shared/api/offline-storage";
 import { useOfflineStore } from "@/shared/stores";
 import { toast } from "sonner";
 

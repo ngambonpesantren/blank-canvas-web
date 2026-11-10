@@ -7,8 +7,8 @@ import { useAuth } from "@/domains/auth/hooks/useAuth";
 import {
   vaultSyncService,
   SyncStatus,
-} from "@/domains/vault/services/VaultSyncService";
-import { getVaultManager } from "@/domains/vault/services/VaultManagerSingleton";
+} from "@/domains/vault/shared/api/VaultSyncService";
+import { getVaultManager } from "@/domains/vault/shared/api/VaultManagerSingleton";
 import { syncCoordinator } from "@/domains/sync/SyncCoordinator";
 import { toast } from "sonner";
 

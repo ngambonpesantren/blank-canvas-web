@@ -1,8 +1,8 @@
 import { WidgetType, EditorView, Decoration, DecorationSet } from "@codemirror/view";
 import { StateField, RangeSetBuilder, EditorState } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
-import { parseMarkdownTable, stringifyMarkdownTable } from "@/domains/editor/table/tableParser";
-import { TableData, TableColumn } from "@/domains/editor/table/tableTypes";
+import { parseMarkdownTable, stringifyMarkdownTable } from "@/domains/editor/shared/utils/tableParser";
+import { TableData, TableColumn } from "@/domains/editor/shared/utils/tableTypes";
 
 // Cache tata letak tabel (lebar kolom, tinggi baris, wrap, pinned) agar persisten saat re-render
 const tableLayoutCache = new Map<

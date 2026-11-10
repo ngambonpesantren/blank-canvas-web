@@ -1,4 +1,4 @@
-import type { EditorApi } from "@/domains/editor/types";
+import type { EditorApi } from "@/domains/editor/shared/utils/editor.types";
 
 /**
  * Holds the currently focused markdown editor so global consumers

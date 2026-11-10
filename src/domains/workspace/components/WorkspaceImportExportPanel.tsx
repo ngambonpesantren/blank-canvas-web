@@ -40,7 +40,7 @@ import {
   ExportOptions,
   GraphNode,
   DuplicateStrategy,
-} from "@/domains/vault/import-export/services/ImportExportService";
+} from "@/domains/vault/shared/api/ImportExportService";
 
 interface Node {
   id: string;

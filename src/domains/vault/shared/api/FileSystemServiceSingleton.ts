@@ -5,7 +5,7 @@
  * duplicate `NOTE_SYNC_REQUESTED` subscriber (the same note written twice).
  */
 
-import { FileSystemService } from "@/domains/vault/persistence/FileSystemService";
+import { FileSystemService } from "@/domains/vault/shared/api/FileSystemService";
 
 let instance: FileSystemService | null = null;
 

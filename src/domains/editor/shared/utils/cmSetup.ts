@@ -31,23 +31,23 @@ import {
   foldNodeProp,
 } from "@codemirror/language";
 
-import { editorTheme, markdownHighlight } from "@/domains/editor/cm/theme";
-import { headingFolding } from "@/domains/editor/cm/extensions/headingFold";
-import { livePreview, sourceHighlighting } from "@/domains/editor/cm/extensions/livePreview";
+import { editorTheme, markdownHighlight } from "@/domains/editor/shared/utils/cmTheme";
+import { headingFolding } from "@/domains/editor/shared/utils/headingFold";
+import { livePreview, sourceHighlighting } from "@/domains/editor/shared/utils/livePreview";
 import {
   wikilinkExtension,
   type LinkHandlers,
-} from "@/domains/editor/cm/extensions/wikilinkField";
+} from "@/domains/editor/shared/utils/wikilinkField";
 import {
   frontmatterField,
   wordCountField,
-} from "@/domains/editor/cm/extensions/frontmatterField";
+} from "@/domains/editor/shared/utils/frontmatterField";
 import {
   wikilinkCompletion,
   tagCompletion,
   slashCommandCompletion,
   type SuggestSource,
-} from "@/domains/editor/suggest/suggestions";
+} from "@/domains/editor/shared/utils/suggestions";
 import type {
   EditorAppearanceConfig,
   EditorBehaviorConfig,
@@ -55,7 +55,7 @@ import type {
 } from "@/domains/editor/shared/stores/useEditorSettingsStore";
 import { FONT_FAMILY_CSS } from "@/domains/editor/shared/stores/useEditorSettingsStore";
 import { Table as GfmTable } from "@lezer/markdown";
-import { footnoteLivePreview } from "@/domains/editor/cm/extensions/cmFootnoteWidget";
+import { footnoteLivePreview } from "@/domains/editor/shared/utils/cmFootnoteWidget";
 
 
 export interface EditorSettingsSnapshot {

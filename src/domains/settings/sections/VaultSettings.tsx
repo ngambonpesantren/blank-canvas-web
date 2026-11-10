@@ -42,9 +42,9 @@ import { ImportExportPanel } from "@/domains/workspace/components/WorkspaceImpor
 import { useVaultSync } from "@/domains/vault/shared/hooks/useVaultSync";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
 import { supabase } from "@/global/api/untypedSupabase";
-import { VaultMemberService } from "@/domains/vault/services/VaultMemberService";
-import { getVaultManager } from "@/domains/vault/services/VaultManagerSingleton";
-import type { VaultLocation, BackupConfig } from "@/domains/vault/types";
+import { VaultMemberService } from "@/domains/vault/shared/api/VaultMemberService";
+import { getVaultManager } from "@/domains/vault/shared/api/VaultManagerSingleton";
+import type { VaultLocation, BackupConfig } from "@/domains/vault/shared/utils/vault.types";
 import type { VaultMemberRole } from "@/types/collaboration";
 
 // Tipe Snapshot Backup Lokal

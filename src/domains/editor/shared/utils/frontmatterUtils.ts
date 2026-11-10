@@ -7,7 +7,7 @@ import { stringify as stringifyYaml } from "yaml";
 import type {
   FrontmatterProperty,
   FrontmatterPropertyType,
-} from "@/domains/editor/types";
+} from "@/domains/editor/shared/utils/editor.types";
 
 export type ListLayout = "block" | "inline";
 

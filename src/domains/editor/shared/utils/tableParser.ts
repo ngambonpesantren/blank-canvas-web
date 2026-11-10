@@ -1,4 +1,4 @@
-import { TableColumn, TableData, ColumnAlignment } from "@/domains/editor/table/tableTypes";
+import { TableColumn, TableData, ColumnAlignment } from "@/domains/editor/shared/utils/tableTypes";
 
 /**
  * Ekstraksi teks dari struktur AST HAST ReactMarkdown

@@ -29,12 +29,12 @@ import { useNodeStore } from "@/shared/stores";
 import type {
   FrontmatterProperty,
   FrontmatterPropertyType,
-} from "@/domains/editor/types";
+} from "@/domains/editor/shared/utils/editor.types";
 import {
   parseFrontmatter,
   writeFrontmatter,
   writeRawFrontmatter,
-} from "@/domains/editor/cm/extensions/frontmatterField";
+} from "@/domains/editor/shared/utils/frontmatterField";
 import {
   detectListLayout,
   isReservedKey,
@@ -44,7 +44,7 @@ import {
   tagSegments,
   toStringList,
   type ListLayout,
-} from "@/domains/editor/frontmatter/frontmatter-utils";
+} from "@/domains/editor/shared/utils/frontmatterUtils";
 import {
   useResolvedSchema,
   useSchemaStore,

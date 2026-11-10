@@ -6,7 +6,7 @@ import {
   undoDepth,
   redoDepth,
 } from "@codemirror/commands";
-import type { EditorApi, Pos } from "@/domains/editor/types";
+import type { EditorApi, Pos } from "@/domains/editor/shared/utils/editor.types";
 
 export function createEditorApi(getView: () => EditorView | null): EditorApi {
   const view = () => {

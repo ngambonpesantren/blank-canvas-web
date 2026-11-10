@@ -1,6 +1,6 @@
 import { commandRegistry, type Command } from "@/domains/workspace/shared/api/CommandRegistry";
-import type { EditorApi } from "@/domains/editor/types";
-import { parseFootnotes } from "@/domains/editor/footnotes/footnoteParser";
+import type { EditorApi } from "@/domains/editor/shared/utils/editor.types";
+import { parseFootnotes } from "@/domains/editor/shared/utils/footnoteParser";
 
 const withEditor = (fn: (editor: EditorApi) => void) => (ctx: { editor: EditorApi | null }) => {
   if (ctx.editor) fn(ctx.editor);

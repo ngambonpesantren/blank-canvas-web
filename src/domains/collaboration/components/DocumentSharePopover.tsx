@@ -38,7 +38,7 @@ import { useAuth } from "@/domains/auth/hooks/useAuth";
 import { useVaultStore } from "@/domains/vault/shared/stores/useVaultStore";
 import { useVaultPermission } from "@/domains/auth/hooks/useVaultPermission";
 import { useVcsStore } from "@/domains/vcs/stores/useVcsStore";
-import { NoteService } from "@/domains/vault/services/NoteService";
+import { NoteService } from "@/domains/vault/shared/api/NoteService";
 import { NoteRecord } from "@/types/collaboration";
 import { getPublicNoteUrl } from "@/domains/collaboration/utils/publicUrlHelper";
 import { VcsCoPresenceAvatars } from "@/domains/vcs/components/VcsCoPresenceAvatars";

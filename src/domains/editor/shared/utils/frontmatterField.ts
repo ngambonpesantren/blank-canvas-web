@@ -3,12 +3,12 @@ import { parse as parseYaml } from "yaml";
 import type {
   FrontmatterProperty,
   FrontmatterPropertyType,
-} from "@/domains/editor/types";
+} from "@/domains/editor/shared/utils/editor.types";
 import {
   propertiesToYaml,
   reservedType,
   type ListLayout,
-} from "@/domains/editor/frontmatter/frontmatter-utils";
+} from "@/domains/editor/shared/utils/frontmatterUtils";
 
 export interface FrontmatterInfo {
   /** Raw YAML block without the --- fences. */

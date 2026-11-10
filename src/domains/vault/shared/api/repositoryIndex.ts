@@ -2,17 +2,17 @@
  * Repository registry — the single entry point for vault storage.
  */
 
-import type { VaultLocation } from "@/domains/vault/types";
-import type { VaultRepository, VaultRepositoryKind } from "@/domains/vault/repository/types";
+import type { VaultLocation } from "@/domains/vault/shared/utils/vault.types";
+import type { VaultRepository, VaultRepositoryKind } from "@/domains/vault/shared/api/repositoryTypes";
 import {
   CloudVaultRepository,
   FileSystemVaultRepository,
   IndexedDbVaultRepository,
   MemoryVaultRepository,
-} from "@/domains/vault/repository/adapters";
+} from "@/domains/vault/shared/api/repositoryAdapters";
 
-export * from "@/domains/vault/repository/types";
-export * from "@/domains/vault/repository/capabilities";
+export * from "@/domains/vault/shared/api/repositoryTypes";
+export * from "@/domains/vault/shared/api/repositoryCapabilities";
 
 const repositories: Record<VaultRepositoryKind, VaultRepository> = {
   memory: new MemoryVaultRepository(),

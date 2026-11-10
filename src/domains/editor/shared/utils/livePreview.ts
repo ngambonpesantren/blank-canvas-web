@@ -8,7 +8,7 @@ import {
 } from "@codemirror/view";
 import { RangeSetBuilder } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
-import { tableLivePreviewPlugin } from "@/domains/editor/cm/extensions/cmTableWidget";
+import { tableLivePreviewPlugin } from "@/domains/editor/shared/utils/cmTableWidget";
 
 /**
  * Live preview: hides markdown syntax markers on lines the cursor is not on,

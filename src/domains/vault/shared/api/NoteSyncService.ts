@@ -6,7 +6,7 @@
  */
 
 import { supabase } from "@/global/api/supabaseClient";
-import { NoteService, UpdateNoteInput } from "@/domains/vault/services/NoteService";
+import { NoteService, UpdateNoteInput } from "@/domains/vault/shared/api/NoteService";
 import type { NoteRecord } from "@/types/collaboration";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 

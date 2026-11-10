@@ -12,7 +12,7 @@ import { Badge } from "@/global/ui/badge";
 import {
   AssetBundlerService,
   PrePublishAuditResult,
-} from "@/domains/vault/services/AssetBundlerService";
+} from "@/domains/vault/shared/api/AssetBundlerService";
 import { CheckCircle2, AlertTriangle, Image as ImageIcon, Link as LinkIcon, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 

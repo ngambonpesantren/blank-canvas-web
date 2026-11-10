@@ -4,7 +4,7 @@ import { Button } from "@/global/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/global/ui/dialog";
 import { Progress } from "@/global/ui/progress";
 import { toast } from "sonner";
-import { supportsFolderPicker } from "@/domains/vault/repository/capabilities";
+import { supportsFolderPicker } from "@/domains/vault/shared/api/repositoryCapabilities";
 
 interface Node {
   id: string;

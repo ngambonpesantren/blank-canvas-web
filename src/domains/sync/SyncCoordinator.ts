@@ -7,8 +7,8 @@
  */
 
 import { supabase } from "@/global/api/supabaseClient";
-import { vaultSyncService } from "@/domains/vault/services/VaultSyncService";
-import { getVaultManager } from "@/domains/vault/services/VaultManagerSingleton";
+import { vaultSyncService } from "@/domains/vault/shared/api/VaultSyncService";
+import { getVaultManager } from "@/domains/vault/shared/api/VaultManagerSingleton";
 
 export type SyncReason = "login" | "online" | "manual";
 

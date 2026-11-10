@@ -6,16 +6,16 @@
  */
 
 import { GraphService } from '@/domains/graph/shared/api/GraphService';
-import { VaultStorage } from '@/domains/vault/services/VaultStorage';
-import { VaultHistory } from '@/domains/vault/services/VaultHistory';
+import { VaultStorage } from '@/domains/vault/shared/api/VaultStorage';
+import { VaultHistory } from '@/domains/vault/shared/api/VaultHistory';
 import {
   Vault,
   VaultData,
   VaultLocation,
   VaultMetadata,
   migrateLegacyStrategy,
-} from '@/domains/vault/types';
-import type { IVaultStorageDriver } from '@/domains/vault/drivers/IVaultStorageDriver';
+} from '@/domains/vault/shared/utils/vault.types';
+import type { IVaultStorageDriver } from '@/domains/vault/shared/api/IVaultStorageDriver';
 
 export class IndexedDbVaultDriver implements IVaultStorageDriver {
   readonly location: VaultLocation = 'cloud';

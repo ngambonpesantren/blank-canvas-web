@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach, vi } from 'vitest';
-import { VaultManager } from '@/domains/vault/services/VaultManager';
+import { VaultManager } from '@/domains/vault/shared/api/VaultManager';
 import type { GraphNode, GraphLink } from '@/domains/graph/shared/api/RelationshipMapper';
 
 describe('VaultManager Characterization Tests', () => {

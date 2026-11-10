@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
 import { useVaultStore } from "@/domains/vault/shared/stores/useVaultStore";
-import { VaultMemberService } from "@/domains/vault/services/VaultMemberService";
+import { VaultMemberService } from "@/domains/vault/shared/api/VaultMemberService";
 import { AdminService } from "@/domains/admin/services/AdminService";
 import { useVaultPermission } from "@/domains/auth/hooks/useVaultPermission";
 import type { VaultMemberRole } from "@/types/collaboration";

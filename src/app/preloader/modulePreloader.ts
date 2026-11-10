@@ -80,7 +80,7 @@ class DynamicPreloadRegistry {
         friendlyMessage: 'Membuka basis data IndexedDB & memulihkan vault aktif...',
         category: 'system',
         priority: 14,
-        loader: () => import('@/domains/vault/services/VaultManagerSingleton'),
+        loader: () => import('@/domains/vault/shared/api/VaultManagerSingleton'),
         warmup: async (mod: any) => {
           // Pre-warm: Buka IndexedDB dan hydrate data vault langsung ke memori
           const vaultManager = mod.getVaultManager();
@@ -93,7 +93,7 @@ class DynamicPreloadRegistry {
         friendlyMessage: 'Menyiapkan driver persistence & storage bridge...',
         category: 'system',
         priority: 12,
-        loader: () => import('@/domains/vault/persistence/FileSystemServiceSingleton'),
+        loader: () => import('@/domains/vault/shared/api/FileSystemServiceSingleton'),
       },
       {
         id: 'sys-meta',
@@ -105,7 +105,7 @@ class DynamicPreloadRegistry {
         warmup: async (mod: any) => {
           // Pre-warm: Dapatkan node aktif dan jalankan indexing awal di RAM
           try {
-            const { getVaultManager } = await import('@/domains/vault/services/VaultManagerSingleton');
+            const { getVaultManager } = await import('@/domains/vault/shared/api/VaultManagerSingleton');
             const activeVault = getVaultManager().getActiveVault();
             if (activeVault) {
               const nodes = activeVault.graphService.getGraphData().nodes;
@@ -208,7 +208,7 @@ class DynamicPreloadRegistry {
         friendlyMessage: 'Mengompilasi parser Markdown & syntax highlighter...',
         category: 'editor',
         priority: 10,
-        loader: () => import('@/domains/editor/cm/setup'),
+        loader: () => import('@/domains/editor/shared/utils/cmSetup'),
         warmup: async () => {
           // Pre-warm: Kompilasi Lezer grammar di V8 JIT engine tanpa mount DOM
           try {
@@ -235,7 +235,7 @@ class DynamicPreloadRegistry {
         name: 'Wikilink & Tag Autocomplete',
         friendlyMessage: 'Mengindeks kamus autocomplete wikilink & tag...',
         category: 'editor',
-        loader: () => import('@/domains/editor/suggest/suggestions'),
+        loader: () => import('@/domains/editor/shared/utils/suggestions'),
       },
 
       // --- GRAPH & GPU ACCELERATION ---

@@ -7,7 +7,7 @@
 
 export interface CommandContext {
   /** Present when a markdown editor is focused. */
-  editor: import("@/domains/editor/types").EditorApi | null;
+  editor: import("@/domains/editor/shared/utils/editor.types").EditorApi | null;
 }
 
 export interface Command {

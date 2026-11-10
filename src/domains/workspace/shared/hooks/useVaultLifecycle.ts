@@ -5,7 +5,7 @@
  */
 import { useCallback, useEffect } from "react";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
-import { getVaultManager } from "@/domains/vault/services/VaultManagerSingleton";
+import { getVaultManager } from "@/domains/vault/shared/api/VaultManagerSingleton";
 import { syncCoordinator } from "@/domains/sync/SyncCoordinator";
 import { eventBus, EventType } from "@/global/stores/events";
 import { useNodeStore, useVaultStore, useGraphStore } from "@/shared/stores";

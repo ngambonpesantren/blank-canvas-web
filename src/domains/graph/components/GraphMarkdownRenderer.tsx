@@ -5,12 +5,12 @@ import remarkBreaks from "remark-breaks";
 import rehypeRaw from "rehype-raw";
 import { cn } from "@/global/utils";
 import { InteractiveTable } from "@/domains/editor/components/EditorInteractiveTable";
-import { extractTableDataFromHastNode } from "@/domains/editor/table/tableParser";
+import { extractTableDataFromHastNode } from "@/domains/editor/shared/utils/tableParser";
 import { FootnotePopover } from "@/domains/editor/components/EditorFootnotePopover";
 import {
   parseFootnotes,
   extractTextContent,
-} from "@/domains/editor/footnotes/footnoteParser";
+} from "@/domains/editor/shared/utils/footnoteParser";
 
 interface MarkdownRendererProps {
   content: string;

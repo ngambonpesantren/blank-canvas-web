@@ -36,11 +36,11 @@ import {
   DropdownMenuTrigger,
 } from "@/global/ui/dropdown-menu";
 import { formatDistanceToNow } from "date-fns";
-import type { VaultLocation } from "@/domains/vault/types";
+import type { VaultLocation } from "@/domains/vault/shared/utils/vault.types";
 import { VaultLocationBadge } from "@/domains/vault/components/VaultStorageControls";
 import { VaultMemberSection } from "@/domains/vault/components/VaultMemberSection";
 import type { VaultMemberRole } from "@/types/collaboration";
-import { VaultValidationService } from "@/domains/vault/services/VaultValidationService";
+import { VaultValidationService } from "@/domains/vault/shared/api/VaultValidationService";
 
 export interface VaultCardProps {
   id: string;

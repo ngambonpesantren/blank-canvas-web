@@ -8,16 +8,16 @@ import {
   createEditorExtensions,
   appearanceTheme,
   appearanceCompartment,
-} from "@/domains/editor/cm/setup";
-import { createEditorApi } from "@/domains/editor/cm/state/editorApi";
-import { setActiveEditor } from "@/domains/editor/services/activeEditor";
+} from "@/domains/editor/shared/utils/cmSetup";
+import { createEditorApi } from "@/domains/editor/shared/utils/editorApi";
+import { setActiveEditor } from "@/domains/editor/shared/api/activeEditor";
 import {
   countWords,
   splitDocument,
   replaceBody,
-} from "@/domains/editor/cm/extensions/frontmatterField";
-import type { SuggestSource } from "@/domains/editor/suggest/suggestions";
-import type { EditorApi, EditorMode } from "@/domains/editor/types";
+} from "@/domains/editor/shared/utils/frontmatterField";
+import type { SuggestSource } from "@/domains/editor/shared/utils/suggestions";
+import type { EditorApi, EditorMode } from "@/domains/editor/shared/utils/editor.types";
 import { useNodeStore } from "@/shared/stores";
 import { useEditorSettingsStore } from "@/domains/editor/shared/stores/useEditorSettingsStore";
 import { FoldableMarkdown } from "@/domains/editor/components/EditorFoldableMarkdown";
@@ -25,7 +25,7 @@ import {
   splitDocumentFootnotes,
   assembleDocumentWithFootnotes,
   upsertFootnoteDefinition,
-} from "@/domains/editor/footnotes/footnoteParser";
+} from "@/domains/editor/shared/utils/footnoteParser";
 import { FootnotePopover } from "@/domains/editor/components/EditorFootnotePopover";
 import { Popover, PopoverAnchor } from "@/global/ui/popover";
 
