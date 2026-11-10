@@ -40,7 +40,6 @@ export function GraphCanvasUtilityDock({
   const panelWidth = Math.max(180, Math.min(224, miniMapProps.viewportWidth - 32));
   const panelHeight = Math.max(140, Math.min(260, miniMapProps.viewportHeight - 80));
 
-  // Arah tooltip dan popover: jika dock vertikal di kanan atas, buka ke arah kiri (masuk ke canvas)
   const tooltipSide = isVertical ? "left" : "bottom";
   const popoverSide = isVertical ? "left" : "bottom";
 
@@ -53,35 +52,27 @@ export function GraphCanvasUtilityDock({
           className,
         )}
       >
-        {/* 4. HIERARCHY LEVELS POPOVER */}
+        {/* 1. HIERARCHY LEVELS POPOVER (Mandiri tanpa Popper ganda) */}
         {showLevels && (
           <Popover
             open={activePopover === "levels"}
             onOpenChange={(open) => setActivePopover(open ? "levels" : null)}
           >
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="inline-flex">
-                  <PopoverTrigger asChild>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className={cn(
-                      "h-7 w-7 rounded-md text-muted-foreground hover:text-foreground",
-                      activePopover === "levels" && "bg-accent text-accent-foreground",
-                    )}
-                    aria-label="Hierarchy levels"
-                  >
-                    <Layers className="h-3.5 w-3.5" />
-                  </Button>
-                </PopoverTrigger>
-                </span>
-              </TooltipTrigger>
-              <TooltipContent side={tooltipSide} sideOffset={6} className="text-xs">
-                Hierarchy levels
-              </TooltipContent>
-            </Tooltip>
+            <PopoverTrigger asChild>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  "h-7 w-7 rounded-md text-muted-foreground hover:text-foreground",
+                  activePopover === "levels" && "bg-accent text-accent-foreground",
+                )}
+                aria-label="Hierarchy levels"
+                title="Hierarchy levels"
+              >
+                <Layers className="h-3.5 w-3.5" />
+              </Button>
+            </PopoverTrigger>
 
             <PopoverContent
               align={isVertical ? "start" : "end"}
@@ -97,34 +88,26 @@ export function GraphCanvasUtilityDock({
           </Popover>
         )}
 
-        {/* 5. MINIMAP POPOVER */}
+        {/* 2. MINIMAP POPOVER (Mandiri tanpa Popper ganda) */}
         <Popover
           open={activePopover === "minimap"}
           onOpenChange={(open) => setActivePopover(open ? "minimap" : null)}
         >
-          <Tooltip>
-            <TooltipTrigger asChild>
-                <span className="inline-flex">
-                  <PopoverTrigger asChild>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className={cn(
-                    "h-7 w-7 rounded-md text-muted-foreground hover:text-foreground",
-                    activePopover === "minimap" && "bg-accent text-accent-foreground",
-                  )}
-                  aria-label="Mini-map"
-                >
-                  <Map className="h-3.5 w-3.5" />
-                </Button>
-              </PopoverTrigger>
-                </span>
-              </TooltipTrigger>
-            <TooltipContent side={tooltipSide} sideOffset={6} className="text-xs">
-              Mini-map view
-            </TooltipContent>
-          </Tooltip>
+          <PopoverTrigger asChild>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "h-7 w-7 rounded-md text-muted-foreground hover:text-foreground",
+                activePopover === "minimap" && "bg-accent text-accent-foreground",
+              )}
+              aria-label="Mini-map"
+              title="Mini-map view"
+            >
+              <Map className="h-3.5 w-3.5" />
+            </Button>
+          </PopoverTrigger>
 
           <PopoverContent
             align={isVertical ? "start" : "end"}
@@ -137,7 +120,7 @@ export function GraphCanvasUtilityDock({
           </PopoverContent>
         </Popover>
 
-        {/* 6. TIME-LAPSE PLAYBACK */}
+        {/* 3. TIME-LAPSE PLAYBACK */}
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -163,9 +146,9 @@ export function GraphCanvasUtilityDock({
           </TooltipContent>
         </Tooltip>
 
-          <div className="w-4 h-px border border-t bg-border/60 my-0.5" />
+        <div className="w-4 h-px border border-t bg-border/60 my-0.5" />
 
-        {/* 1. ZOOM TO FIT */}
+        {/* 4. ZOOM TO FIT */}
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -184,7 +167,7 @@ export function GraphCanvasUtilityDock({
           </TooltipContent>
         </Tooltip>
 
-        {/* 2. ZOOM TO SELECTION */}
+        {/* 5. ZOOM TO SELECTION */}
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -203,7 +186,7 @@ export function GraphCanvasUtilityDock({
           </TooltipContent>
         </Tooltip>
 
-        {/* 3. SHOW EVERYTHING (EXPAND ALL) */}
+        {/* 6. SHOW EVERYTHING (EXPAND ALL) */}
         {(collapsedCount > 0 || focused) && (
           <Tooltip>
             <TooltipTrigger asChild>
