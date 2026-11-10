@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Button } from "@/shared/ui/button";
-import { Input } from "@/shared/ui/input";
-import { Textarea } from "@/shared/ui/textarea";
+import { Button } from "@/global/ui/button";
+import { Input } from "@/global/ui/input";
+import { Textarea } from "@/global/ui/textarea";
 import {
   X,
   Trash2,
@@ -30,11 +30,11 @@ import {
   PenLine,
 } from "lucide-react";
 import { toast } from "sonner";
-import { Badge } from "@/shared/ui/badge";
+import { Badge } from "@/global/ui/badge";
 import { MarkdownRenderer } from "@/core/graph/MarkdownRenderer";
 import { MarkdownView } from "@/core/editor/MarkdownView";
-import { ScrollArea } from "@/shared/ui/scroll-area";
-import { Slider } from "@/shared/ui/slider-number";
+import { ScrollArea } from "@/global/ui/scroll-area";
+import { Slider } from "@/global/ui/slider-number";
 import { cn } from "@/shared/lib";
 import {
   DropdownMenu,
@@ -42,22 +42,22 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/shared/ui/dropdown-menu";
+} from "@/global/ui/dropdown-menu";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/shared/ui/collapsible";
+} from "@/global/ui/collapsible";
 
 interface Node {
   id: string;
   name: string;
   content: string;
-  type: "folder" | "file" | "media";
+  type: "folder" | "file" | "media" | "pdf";
   parentId: string | null;
   depth: number;
   tags: string[];
-  mediaType?: "image" | "audio" | "video";
+  mediaType?: "image" | "audio" | "video" | "pdf";
   dataUrl?: string;
   mimeType?: string;
 }

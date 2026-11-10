@@ -13,7 +13,7 @@ import {
   SplitSquareVertical,
   Plus,
 } from "lucide-react";
-import { Button } from "@/shared/ui/button";
+import { Button } from "@/global/ui/button";
 import { LeafView } from "./ViewRegistry";
 import { useWorkspaceStore } from "./store/useWorkspaceStore";
 import type { WorkspaceGroup } from "./store/types";

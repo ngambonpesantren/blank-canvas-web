@@ -1,1 +1,2 @@
-export * from "@/global/ui/chart";
+// Re-export bridge Quo Vadis: shared/ui -> global/ui
+export * from '@/global/ui/chart';

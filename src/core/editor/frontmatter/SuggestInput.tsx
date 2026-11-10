@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from "react";
-import { Input } from "@/shared/ui/input";
+import { Input } from "@/global/ui/input";
 import { cn } from "@/shared/lib";
-import { fuzzyScore } from "@/shared/lib/fuzzy";
+import { fuzzyScore } from "@/global/utils/fuzzy";
 
 interface SuggestInputProps {
   value: string;

@@ -8,7 +8,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/global/ui/tooltip";
 import { PublicReaderService } from "@/domains/public-reader/services/PublicReaderService";
 import { cn } from "@/global/utils";
 import { Lock, FileText } from "lucide-react";
-import { InteractiveTable } from "@/domains/editor/table/InteractiveTable";
+import { InteractiveTable } from "@/domains/editor/components/EditorInteractiveTable";
 import { extractTableDataFromHastNode } from "@/domains/editor/table/tableParser";
 
 interface PublicMarkdownReaderProps {

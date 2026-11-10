@@ -14,14 +14,14 @@ import {
 import { useGraphStore, useNodeStore } from "@/shared/stores";
 import { useGraphData } from "@/domains/graph/shared/hooks/useGraphData";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
-import { useWorkspaceStore } from "@/domains/workspace/stores/useWorkspaceStore";
+import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
 import type { ViewState } from "@/domains/workspace/types";
 import {
   moveNodeAction,
   deleteNodeAction,
   updateNodeAction,
   addNodeAction,
-} from "@/domains/workspace/actions/workspaceActions";
+} from "@/domains/workspace/shared/api/workspaceActions";
 
 export interface GraphOrchestratorProps {
   leafId: string;

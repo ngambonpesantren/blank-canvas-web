@@ -30,7 +30,7 @@ import {
   emitVaultDeleted,
   emitVaultRenamed,
   emitVaultSwitched,
-} from "@/shared/events/events";
+} from "@/global/stores/events";
 
 export interface Vault {
   id: string;

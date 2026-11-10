@@ -7,7 +7,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import { cloudVaultService } from "@/core/system/vault/CloudVaultService";
 import type { VaultManager } from "@/core/system/vault/VaultManager";
-import { eventBus, EventType } from "@/shared/events/events";
+import { eventBus, EventType } from "@/global/stores/events";
 import { syncQueue, type QueuedVaultPush } from "./sync-queue";
 
 export type SyncEngineStatus =

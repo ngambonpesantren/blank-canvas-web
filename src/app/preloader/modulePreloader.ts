@@ -133,21 +133,21 @@ class DynamicPreloadRegistry {
         name: 'Activity Ribbon Navigation',
         friendlyMessage: 'Menyiapkan navigasi samping & bilah aksi...',
         category: 'shell',
-        loader: () => import('@/domains/workspace/components/Ribbon'),
+        loader: () => import('@/domains/workspace/components/WorkspaceRibbon'),
       },
       {
         id: 'shell-sidebar',
         name: 'Vault Explorer & File Tree',
         friendlyMessage: 'Menyiapkan penjelajah hierarki file vault...',
         category: 'shell',
-        loader: () => import('@/domains/workspace/components/SidebarPanel'),
+        loader: () => import('@/domains/workspace/components/WorkspaceSidebarPanel'),
       },
       {
         id: 'shell-statusbar',
         name: 'System Status & Breadcrumbs',
         friendlyMessage: 'Menginisialisasi status bar & diagnostik...',
         category: 'shell',
-        loader: () => import('@/domains/workspace/components/StatusBar'),
+        loader: () => import('@/domains/workspace/components/WorkspaceStatusBar'),
       },
       {
         id: 'shell-palette',
@@ -228,7 +228,7 @@ class DynamicPreloadRegistry {
         name: 'Markdown Live Preview Engine',
         friendlyMessage: 'Menyiapkan render live-preview Markdown...',
         category: 'editor',
-        loader: () => import('@/domains/editor/components/MarkdownView'),
+        loader: () => import('@/domains/editor/components/EditorMarkdownView'),
       },
       {
         id: 'ed-suggest',

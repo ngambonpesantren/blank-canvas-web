@@ -1,1 +1,1 @@
-export * from "@/global/utils/fuzzy";
+export * from '@/global/utils/fuzzy';

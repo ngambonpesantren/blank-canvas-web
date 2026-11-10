@@ -21,7 +21,7 @@ import {
 import { getPublicNoteUrl } from "@/domains/collaboration/utils/publicUrlHelper";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
 import { ClaimUsernameModal } from "@/domains/settings/profile/components/ClaimUsernameModal";
-import type { ExplorerNode } from "@/domains/workspace/sidebar/FileExplorerTree";
+import type { ExplorerNode } from "@/domains/workspace/components/WorkspaceFileExplorerTree";
 import {
   Folder,
   FileText,

@@ -13,26 +13,26 @@ import {
   ChevronDown,
   Settings2,
 } from "lucide-react";
-import { Button } from "@/shared/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
-import { Checkbox } from "@/shared/ui/checkbox";
-import { ScrollArea } from "@/shared/ui/scroll-area";
-import { Badge } from "@/shared/ui/badge";
-import { Progress } from "@/shared/ui/progress";
-import { RadioGroup, RadioGroupItem } from "@/shared/ui/radio-group";
-import { Label } from "@/shared/ui/label";
+import { Button } from "@/global/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/global/ui/tabs";
+import { Checkbox } from "@/global/ui/checkbox";
+import { ScrollArea } from "@/global/ui/scroll-area";
+import { Badge } from "@/global/ui/badge";
+import { Progress } from "@/global/ui/progress";
+import { RadioGroup, RadioGroupItem } from "@/global/ui/radio-group";
+import { Label } from "@/global/ui/label";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/shared/ui/collapsible";
+} from "@/global/ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/shared/ui/dropdown-menu";
+} from "@/global/ui/dropdown-menu";
 import { toast } from "sonner";
 import {
   importExportService,
@@ -46,11 +46,11 @@ interface Node {
   id: string;
   name: string;
   content: string;
-  type: "folder" | "file" | "media";
+  type: "folder" | "file" | "media" | "pdf";
   parentId: string | null;
   depth: number;
   tags: string[];
-  mediaType?: "image" | "audio" | "video";
+  mediaType?: "image" | "audio" | "video" | "pdf";
   mimeType?: string;
   dataUrl?: string;
   wikilinks?: string[];

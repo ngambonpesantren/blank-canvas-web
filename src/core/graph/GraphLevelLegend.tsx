@@ -6,7 +6,7 @@
 
 import { useState } from 'react';
 import { ChevronDown, Layers } from 'lucide-react';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@/global/ui/button';
 import {
   resolveLevelColor,
   type HierarchyColorConfig,

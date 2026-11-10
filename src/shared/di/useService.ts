@@ -1,1 +1,1 @@
-export * from "@/global/utils/useService";
+export * from '@/global/utils/useService';

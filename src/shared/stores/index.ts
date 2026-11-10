@@ -4,8 +4,8 @@
 
 export * from '@/shared/stores/types';
 export { useNodeStore } from '@/domains/graph/shared/stores/useNodeStore';
-export { useVaultStore } from '@/domains/vault/stores/useVaultStore';
-export { useUIStore } from '@/domains/workspace/stores/useUIStore';
+export { useVaultStore } from '@/domains/vault/shared/stores/useVaultStore';
+export { useUIStore } from '@/domains/workspace/shared/stores/useUIStore';
 export { useGraphStore } from '@/domains/graph/shared/stores/useGraphStore';
 export { useThemeStore } from '@/domains/settings/stores/useThemeStore';
 export { useOfflineStore } from '@/domains/sync/stores/useOfflineStore';

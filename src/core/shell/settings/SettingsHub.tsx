@@ -3,7 +3,7 @@
  * sidebar navigation instead of scattered sheets.
  */
 
-import { ScrollArea } from "@/shared/ui/scroll-area";
+import { ScrollArea } from "@/global/ui/scroll-area";
 import { EditorSettingsContent } from "@/core/editor/settings/EditorSettingsPanel";
 import { FeatureTogglesPanel } from "@/core/shell/settings/FeatureTogglesPanel";
 import { SyncPanel } from "@/core/shell/settings/SyncPanel";

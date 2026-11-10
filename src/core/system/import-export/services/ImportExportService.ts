@@ -14,12 +14,12 @@ export interface GraphNode {
   id: string;
   name: string;
   content: string;
-  type: "folder" | "file" | "media";
+  type: "folder" | "file" | "media" | "pdf";
   parentId: string | null;
   depth: number;
   tags: string[];
   wikilinks?: string[];
-  mediaType?: "image" | "audio" | "video";
+  mediaType?: "image" | "audio" | "video" | "pdf";
   mimeType?: string;
   dataUrl?: string;
 }
@@ -63,7 +63,7 @@ export class ImportExportService {
 
   private getFileType(
     filename: string,
-  ): "markdown" | "image" | "audio" | "video" | "unknown" {
+  ): "markdown" | "image" | "audio" | "video" | "pdf" | "unknown" {
     const ext = filename.toLowerCase().substring(filename.lastIndexOf("."));
 
     if (SUPPORTED_EXTENSIONS.markdown.includes(ext)) return "markdown";
@@ -104,7 +104,7 @@ export class ImportExportService {
     nodes: GraphNode[],
     name: string,
     parentId: string | null,
-    type: "folder" | "file" | "media",
+    type: "folder" | "file" | "media" | "pdf",
   ): GraphNode | undefined {
     return nodes.find(
       (n) => n.name === name && n.parentId === parentId && n.type === type,
@@ -371,7 +371,7 @@ export class ImportExportService {
             parentId,
             depth: nodeDepth,
             tags: [fileType],
-            mediaType: fileType as "image" | "audio" | "video",
+            mediaType: fileType as "image" | "audio" | "video" | "pdf",
             mimeType: file.type,
             dataUrl,
           };
@@ -642,7 +642,7 @@ export class ImportExportService {
                 parentId,
                 depth: nodeDepth,
                 tags: [fileType],
-                mediaType: fileType as "image" | "audio" | "video",
+                mediaType: fileType as "image" | "audio" | "video" | "pdf",
                 mimeType: this.getMimeType(fileName),
                 dataUrl,
               };

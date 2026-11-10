@@ -16,7 +16,7 @@ import {
   Redo2,
 } from "lucide-react";
 import { toast } from "sonner";
-import { MarkdownView } from "@/domains/editor/components/MarkdownView";
+import { MarkdownView } from "@/domains/editor/components/EditorMarkdownView";
 import { ScrollArea } from "@/global/ui/scroll-area";
 import { cn } from "@/global/utils";
 import {

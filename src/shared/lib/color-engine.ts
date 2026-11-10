@@ -1,1 +1,1 @@
-export * from "@/global/utils/color-engine";
+export * from '@/global/utils/color-engine';

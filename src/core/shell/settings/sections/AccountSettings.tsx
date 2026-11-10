@@ -5,16 +5,16 @@
 
 import { useNavigate } from "react-router-dom";
 import { LogIn, LogOut, ShieldCheck, Sparkles, User } from "lucide-react";
-import { Button } from "@/shared/ui/button";
-import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/global/ui/button";
+import { Badge } from "@/global/ui/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/shared/ui/card";
-import { Separator } from "@/shared/ui/separator";
+} from "@/global/ui/card";
+import { Separator } from "@/global/ui/separator";
 import { useAuth } from "@/core/shell/auth/hooks/useAuth";
 import { ProfileSettings } from "@/core/shell/profile/components/ProfileSettings";
 import { AvatarUpload } from "@/core/shell/profile/components/AvatarUpload";

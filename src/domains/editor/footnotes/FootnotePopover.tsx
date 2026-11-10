@@ -3,4 +3,4 @@ export {
   FootnotePopover,
   type FootnotePopoverProps,
   FootnotePopover as default,
-} from "@/domains/editor/components/FootnotePopover";
+} from "@/domains/editor/components/EditorFootnotePopover";

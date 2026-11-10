@@ -11,7 +11,7 @@ export interface WritableNode {
   id: string;
   name: string;
   content?: string;
-  type: "folder" | "file" | "media";
+  type: "folder" | "file" | "media" | "pdf";
   parentId: string | null;
 }
 

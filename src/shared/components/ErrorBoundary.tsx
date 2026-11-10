@@ -1,2 +1,1 @@
-export * from "@/global/components/ErrorBoundary";
-export { ErrorBoundary } from "@/global/components/ErrorBoundary";
+export * from '@/global/components/ErrorBoundary';

@@ -1,1 +1,1 @@
-export * from "@/global/api/untypedSupabase";
+export * from '@/global/api/untypedSupabase';

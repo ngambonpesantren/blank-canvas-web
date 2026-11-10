@@ -12,11 +12,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/shared/ui/sheet";
-import { Button } from "@/shared/ui/button";
-import { Badge } from "@/shared/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
-import { ScrollArea } from "@/shared/ui/scroll-area";
+} from "@/global/ui/sheet";
+import { Button } from "@/global/ui/button";
+import { Badge } from "@/global/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/global/ui/tabs";
+import { ScrollArea } from "@/global/ui/scroll-area";
 import {
   Settings2,
   Circle,
@@ -38,7 +38,7 @@ import { NodeStylingTab } from './NodeStylingTab';
 import { LinkStylingTab } from './LinkStylingTab';
 import { ForceEngineTab } from './ForceEngineTab';
 import { AnalyticsTab } from './AnalyticsTab';
-import { useIsMobile } from "@/shared/hooks/useMobile";
+import { useIsMobile } from "@/global/hooks/useMobile";
 
 interface GraphConfigPanelProps {
   config: GraphConfigState;

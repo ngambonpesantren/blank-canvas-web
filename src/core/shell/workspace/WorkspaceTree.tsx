@@ -5,7 +5,7 @@ import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "@/shared/ui/resizable";
+} from "@/global/ui/resizable";
 import { WorkspaceGroup } from "./WorkspaceGroup";
 import { useWorkspaceStore } from "./store/useWorkspaceStore";
 import type { WorkspaceNode } from "./store/types";

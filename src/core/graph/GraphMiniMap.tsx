@@ -5,10 +5,10 @@
 
 import { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import type { ForceGraphMethods } from 'react-force-graph-2d';
-import { Button } from "@/shared/ui/button";
+import { Button } from "@/global/ui/button";
 import { Map, Maximize2, Minimize2, X } from 'lucide-react';
 import { cn } from "@/shared/lib";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/global/ui/tooltip';
 import type { RenderLink, RenderNode } from './model/graphTypes';
 
 interface GraphMiniMapProps {

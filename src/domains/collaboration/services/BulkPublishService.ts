@@ -12,7 +12,7 @@ import { supabase } from "@/global/api/supabaseClient";
 import { NoteService } from "@/domains/vault/services/NoteService";
 import { AssetBundlerService } from "@/domains/vault/services/AssetBundlerService";
 import type { Node } from "@/shared/stores/types";
-import type { ExplorerNode } from "@/domains/workspace/sidebar/FileExplorerTree";
+import type { ExplorerNode } from "@/domains/workspace/components/WorkspaceFileExplorerTree";
 
 export type BulkItemStatus = "idle" | "bundling" | "publishing" | "success" | "failed";
 

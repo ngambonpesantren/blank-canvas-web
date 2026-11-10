@@ -3,7 +3,7 @@
  */
 
 import { ScrollArea } from "@/global/ui/scroll-area";
-import { EditorSettingsContent } from "@/domains/editor/settings/EditorSettingsPanel";
+import { EditorSettingsContent } from "@/domains/editor/components/EditorSettingsPanel";
 import { FeatureTogglesPanel } from "@/domains/settings/FeatureTogglesPanel";
 import { SyncPanel } from "@/domains/settings/SyncPanel";
 import { SchemaSettings } from "@/domains/settings/sections/SchemaSettings";

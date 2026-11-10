@@ -1,13 +1,13 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { cn } from "@/shared/lib";
-import { Button } from "@/shared/ui/button";
-import { Badge } from "@/shared/ui/badge";
-import { ScrollArea } from "@/shared/ui/scroll-area";
+import { Button } from "@/global/ui/button";
+import { Badge } from "@/global/ui/badge";
+import { ScrollArea } from "@/global/ui/scroll-area";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/shared/ui/collapsible";
+} from "@/global/ui/collapsible";
 import {
   X,
   Check,
@@ -36,7 +36,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/shared/ui/dropdown-menu";
+} from "@/global/ui/dropdown-menu";
 import type { RibbonTool } from "./IconRibbon";
 import { useWorkspaceStore } from "./store/useWorkspaceStore";
 
@@ -44,11 +44,11 @@ interface Node {
   id: string;
   name: string;
   content: string;
-  type: "folder" | "file" | "media";
+  type: "folder" | "file" | "media" | "pdf";
   parentId: string | null;
   depth: number;
   tags: string[];
-  mediaType?: "image" | "audio" | "video";
+  mediaType?: "image" | "audio" | "video" | "pdf";
 }
 
 interface SidebarPanelProps {
@@ -386,6 +386,7 @@ export function SidebarPanel({
   const panelTitles: Record<RibbonTool, string> = {
     files: "File Explorer",
     settings: "Settings",
+  vcs: "Version Control",
   };
 
   if (!activeTool) return null;

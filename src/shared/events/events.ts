@@ -1,1 +1,1 @@
-export * from "@/global/stores/events";
+export * from '@/global/stores/events';

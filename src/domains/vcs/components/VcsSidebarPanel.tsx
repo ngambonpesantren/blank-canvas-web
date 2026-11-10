@@ -16,7 +16,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
-import { useVaultStore } from "@/domains/vault/stores/useVaultStore";
+import { useVaultStore } from "@/domains/vault/shared/stores/useVaultStore";
 import { useVaultPermission } from "@/domains/auth/hooks/useVaultPermission";
 import { useVcsStore } from "@/domains/vcs/stores/useVcsStore";
 import { VcsCloudService } from "@/domains/vcs/services/VcsCloudService";

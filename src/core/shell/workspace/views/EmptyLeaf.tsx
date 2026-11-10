@@ -1,5 +1,5 @@
 import { FilePlus, Network, FolderOpen } from 'lucide-react';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@/global/ui/button';
 import { useVaultSession } from '../VaultSessionContext';
 import { useWorkspaceStore } from '../store/useWorkspaceStore';
 import type { LeafViewProps } from '../ViewRegistry';

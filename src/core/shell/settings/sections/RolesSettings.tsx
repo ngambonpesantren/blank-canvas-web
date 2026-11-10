@@ -3,7 +3,7 @@
  * the collaborative workflow phase.
  */
 
-import { Badge } from '@/shared/ui/badge';
+import { Badge } from '@/global/ui/badge';
 import { ShieldCheck } from 'lucide-react';
 
 const ROLES = [

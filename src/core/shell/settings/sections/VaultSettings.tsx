@@ -15,30 +15,30 @@ import {
   History,
   FileArchive,
 } from "lucide-react";
-import { Button } from "@/shared/ui/button";
-import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/global/ui/button";
+import { Badge } from "@/global/ui/badge";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/shared/ui/dialog";
+} from "@/global/ui/dialog";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/shared/ui/card";
-import { Separator } from "@/shared/ui/separator";
+} from "@/global/ui/card";
+import { Separator } from "@/global/ui/separator";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/shared/ui/collapsible";
+} from "@/global/ui/collapsible";
 import { toast } from "sonner";
-import { Skeleton } from "@/shared/ui/skeleton";
-import { Progress } from "@/shared/ui/progress";
+import { Skeleton } from "@/global/ui/skeleton";
+import { Progress } from "@/global/ui/progress";
 import { VaultCard } from "@/core/system/vault/VaultCard";
 import { VaultModeSelector } from "@/core/system/vault/VaultModeSelector";
 import { VaultBackupPanel } from "@/core/system/vault/VaultBackupPanel";

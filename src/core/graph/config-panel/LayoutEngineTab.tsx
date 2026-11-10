@@ -3,17 +3,17 @@
  * and label behaviour for the single graph renderer.
  */
 
-import { Label } from "@/shared/ui/label";
-import { Input } from "@/shared/ui/input";
-import { Switch } from "@/shared/ui/switch";
-import { Slider } from "@/shared/ui/slider-number";
+import { Label } from "@/global/ui/label";
+import { Input } from "@/global/ui/input";
+import { Switch } from "@/global/ui/switch";
+import { Slider } from "@/global/ui/slider-number";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shared/ui/select";
+} from "@/global/ui/select";
 import { useGraphEngineStore } from "@/shared/stores/useGraphEngineStore";
 import { useGraphInteractionStore } from "@/core/graph/model/useGraphInteractionStore";
 import type {

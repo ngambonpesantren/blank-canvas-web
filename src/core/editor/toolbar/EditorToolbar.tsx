@@ -1,6 +1,6 @@
-import { Button } from "@/shared/ui/button";
-import { Separator } from "@/shared/ui/separator";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/tooltip";
+import { Button } from "@/global/ui/button";
+import { Separator } from "@/global/ui/separator";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/global/ui/tooltip";
 import {
   Bold,
   Italic,

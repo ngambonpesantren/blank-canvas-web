@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ChevronDown, ChevronRight, ListTree } from "lucide-react";
-import { Button } from "@/shared/ui/button";
-import { Collapsible, CollapsibleContent } from "@/shared/ui/collapsible";
+import { Button } from "@/global/ui/button";
+import { Collapsible, CollapsibleContent } from "@/global/ui/collapsible";
 import type { MarkdownHeading } from "@/core/editor/headings";
 
 interface TableOfContentsProps {

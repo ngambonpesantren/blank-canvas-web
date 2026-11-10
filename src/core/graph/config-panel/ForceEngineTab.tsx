@@ -2,17 +2,17 @@
  * ForceEngineTab - D3-Force physics configuration with collapsible sections
  */
 
-import { Label } from "@/shared/ui/label";
-import { Slider } from "@/shared/ui/slider-number";
-import { Badge } from "@/shared/ui/badge";
-import { Button } from "@/shared/ui/button";
+import { Label } from "@/global/ui/label";
+import { Slider } from "@/global/ui/slider-number";
+import { Badge } from "@/global/ui/badge";
+import { Button } from "@/global/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shared/ui/select";
+} from "@/global/ui/select";
 import {
   GitBranch,
   Settings2,

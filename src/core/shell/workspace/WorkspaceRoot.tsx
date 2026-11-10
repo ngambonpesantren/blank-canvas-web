@@ -9,7 +9,7 @@ import { WorkspaceTree } from "@/core/shell/workspace/WorkspaceTree";
 import { WorkspaceGroup } from "@/core/shell/workspace/WorkspaceGroup";
 import { VaultSessionProvider } from "@/core/shell/workspace/VaultSessionContext";
 import { useWorkspaceStore } from "@/core/shell/workspace/store/useWorkspaceStore";
-import { useIsMobile } from "@/shared/hooks/useMobile";
+import { useIsMobile } from "@/global/hooks/useMobile";
 import { PWAInstallPrompt } from "@/core/system/sync/PWAInstallPrompt";
 import { useConfigSync } from "@/core/system/config";
 

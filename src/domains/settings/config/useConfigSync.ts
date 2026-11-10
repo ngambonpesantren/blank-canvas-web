@@ -6,7 +6,7 @@
 import { useEffect, useState } from "react";
 import { configService } from "@/domains/settings/config/ConfigService";
 import { registerConfigSections } from "@/domains/settings/config/sections";
-import { useVaultStore } from "@/domains/vault/stores/useVaultStore";
+import { useVaultStore } from "@/domains/vault/shared/stores/useVaultStore";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
 import type { ConfigSyncState } from "@/domains/settings/config/types";
 

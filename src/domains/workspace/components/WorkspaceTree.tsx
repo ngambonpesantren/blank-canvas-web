@@ -7,7 +7,7 @@ import {
   ResizablePanelGroup,
 } from "@/global/ui/resizable";
 import { WorkspaceGroup } from "@/domains/workspace/components/WorkspaceGroup";
-import { useWorkspaceStore } from "@/domains/workspace/stores/useWorkspaceStore";
+import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
 import type { WorkspaceNode } from "@/domains/workspace/types";
 
 export function WorkspaceTree({ node }: { node: WorkspaceNode }) {

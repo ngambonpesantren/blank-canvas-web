@@ -13,6 +13,8 @@ export type HierarchyPresetId =
   | 'dark-friendly'
   | 'warm'
   | 'cool'
+  | 'neon'
+  | 'pastel'
   | 'custom';
 
 export interface HierarchyColorConfig {

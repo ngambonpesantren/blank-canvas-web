@@ -29,7 +29,7 @@ import {
 import { getVaultManager } from "@/core/system/vault/VaultManagerSingleton";
 import { syncEngine } from "@/core/system/sync/SyncEngine";
 import { syncCoordinator } from "@/core/system/sync/SyncCoordinator";
-import { eventBus, EventType } from "@/shared/events/events";
+import { eventBus, EventType } from "@/global/stores/events";
 import {
   deleteNodeFromDisk,
   moveNodeOnDisk,

@@ -17,11 +17,11 @@ import {
   History,
   Download,
 } from "lucide-react";
-import { Button } from "@/shared/ui/button";
-import { Badge } from "@/shared/ui/badge";
-import { Input } from "@/shared/ui/input";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/tooltip";
-import { Separator } from "@/shared/ui/separator";
+import { Button } from "@/global/ui/button";
+import { Badge } from "@/global/ui/badge";
+import { Input } from "@/global/ui/input";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/global/ui/tooltip";
+import { Separator } from "@/global/ui/separator";
 import { formatDistanceToNow } from "date-fns";
 import type { VaultLocation } from "@/core/system/vault/types";
 import {

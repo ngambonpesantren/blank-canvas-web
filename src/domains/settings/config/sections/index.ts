@@ -12,11 +12,11 @@ import {
 } from "@/domains/graph/shared/stores/useGraphStore";
 import { useGraphEngineStore } from "@/domains/graph/shared/stores/useGraphEngineStore";
 import { useThemeStore } from "@/domains/settings/stores/useThemeStore";
-import { useEditorSettingsStore } from "@/domains/editor/stores/useEditorSettingsStore";
-import { useUIStore } from "@/domains/workspace/stores/useUIStore";
-import { useWorkspaceStore } from "@/domains/workspace/stores/useWorkspaceStore";
+import { useEditorSettingsStore } from "@/domains/editor/shared/stores/useEditorSettingsStore";
+import { useUIStore } from "@/domains/workspace/shared/stores/useUIStore";
+import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
 import { useSchemaStore } from "@/domains/settings/schema/useSchemaStore";
-import { useBackupConfigStore } from "@/domains/vault/stores/useBackupConfigStore";
+import { useBackupConfigStore } from "@/domains/vault/shared/stores/useBackupConfigStore";
 import {
   TOGGLEABLE_FEATURES,
   getFeatureToggles,

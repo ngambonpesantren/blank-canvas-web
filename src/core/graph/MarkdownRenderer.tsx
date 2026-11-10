@@ -5,7 +5,7 @@ import remarkBreaks from 'remark-breaks';
 import rehypeRaw from 'rehype-raw';
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/shared/lib";
-import { Button } from "@/shared/ui/button";
+import { Button } from "@/global/ui/button";
 import {
   flattenHeadings,
   parseMarkdownHeadings,

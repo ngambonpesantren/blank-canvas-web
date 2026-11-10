@@ -1,10 +1,10 @@
-import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
-import { Label } from '@/shared/ui/label';
-import { Slider } from "@/shared/ui/slider-number";
-import { Switch } from '@/shared/ui/switch';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip';
-import { cn } from '@/shared/lib/cn';
+import { Button } from '@/global/ui/button';
+import { Input } from '@/global/ui/input';
+import { Label } from '@/global/ui/label';
+import { Slider } from "@/global/ui/slider-number";
+import { Switch } from '@/global/ui/switch';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/global/ui/tooltip';
+import { cn } from '@/global/utils/cn';
 import {
   Clock3,
   Filter,

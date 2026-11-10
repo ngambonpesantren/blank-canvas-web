@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Cloud, CloudOff, CheckCircle, RefreshCw, User } from "lucide-react";
 import { eventBus, EventType } from "@/global/stores/events";
 import { syncEngine } from "@/domains/sync/SyncEngine";
-import { useVaultSync } from "@/domains/vault/hooks/useVaultSync";
+import { useVaultSync } from "@/domains/vault/shared/hooks/useVaultSync";
 import { Button } from "@/global/ui/button";
 import {
   Tooltip,

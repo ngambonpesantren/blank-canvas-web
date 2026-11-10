@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Node } from "@/shared/stores/types";
 import { useNodeStore } from "@/shared/stores";
-import { useWorkspaceStore } from "@/domains/workspace/stores/useWorkspaceStore";
-import { useVaultStore } from "@/domains/vault/stores/useVaultStore";
+import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspaceStore";
+import { useVaultStore } from "@/domains/vault/shared/stores/useVaultStore";
 import { useVaultPermission } from "@/domains/auth/hooks/useVaultPermission";
 import { NoteService } from "@/domains/vault/services/NoteService";
-import { updateNodeAction, deleteNodeAction } from "@/domains/workspace/actions/workspaceActions";
+import { updateNodeAction, deleteNodeAction } from "@/domains/workspace/shared/api/workspaceActions";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
 import { BulkPublishModal } from "@/domains/collaboration/components/BulkPublishModal";
 import { BulkPublishService } from "@/domains/collaboration/services/BulkPublishService";

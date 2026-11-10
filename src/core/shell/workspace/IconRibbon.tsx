@@ -1,12 +1,12 @@
 import { cn } from "@/shared/lib";
-import { Button } from '@/shared/ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/tooltip";
+import { Button } from '@/global/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/global/ui/tooltip";
 import {
   FolderTree,
   Settings2,
 } from "lucide-react";
 
-export type RibbonTool = "files" | "settings";
+export type RibbonTool = "files" | "vcs" | "settings";
 
 interface IconRibbonProps {
   activeTool: RibbonTool | null;

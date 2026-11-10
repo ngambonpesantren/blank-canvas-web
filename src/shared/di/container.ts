@@ -1,1 +1,1 @@
-export * from "@/global/utils/container";
+export * from '@/global/utils/container';

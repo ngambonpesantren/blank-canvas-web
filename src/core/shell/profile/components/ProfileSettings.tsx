@@ -5,19 +5,19 @@ import { z } from "zod";
 import { useAuth } from "@/core/shell/auth/hooks/useAuth";
 import { AvatarUpload } from "./AvatarUpload";
 import { ApiKeyManager } from "./ApiKeyManager";
-import { Button } from "@/shared/ui/button";
-import { Input } from "@/shared/ui/input";
-import { Label } from "@/shared/ui/label";
-import { Textarea } from "@/shared/ui/textarea";
-import { Switch } from "@/shared/ui/switch";
+import { Button } from "@/global/ui/button";
+import { Input } from "@/global/ui/input";
+import { Label } from "@/global/ui/label";
+import { Textarea } from "@/global/ui/textarea";
+import { Switch } from "@/global/ui/switch";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/shared/ui/card";
-import { Separator } from "@/shared/ui/separator";
+} from "@/global/ui/card";
+import { Separator } from "@/global/ui/separator";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,7 +28,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/shared/ui/alert-dialog";
+} from "@/global/ui/alert-dialog";
 import { Loader2, Save, Trash2, Lock } from "lucide-react";
 import { toast } from "sonner";
 

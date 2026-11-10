@@ -1,8 +1,8 @@
 /** User-facing on/off switches for optional features. */
 
 import { useEffect, useState } from "react";
-import { Switch } from "@/shared/ui/switch";
-import { Label } from "@/shared/ui/label";
+import { Switch } from "@/global/ui/switch";
+import { Label } from "@/global/ui/label";
 import {
   TOGGLEABLE_FEATURES,
   getFeatureToggles,

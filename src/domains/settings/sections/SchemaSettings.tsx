@@ -25,7 +25,7 @@ import {
   type PropertyVisibility,
   type SchemaPropertyType,
 } from "@/domains/settings/schema";
-import { useVaultStore } from "@/domains/vault/stores/useVaultStore";
+import { useVaultStore } from "@/domains/vault/shared/stores/useVaultStore";
 
 export function SchemaSettings() {
   const vaultId = useVaultStore((s) => s.currentVaultId);
