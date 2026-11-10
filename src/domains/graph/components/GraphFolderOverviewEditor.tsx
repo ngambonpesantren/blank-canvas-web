@@ -5,7 +5,10 @@ import { useWorkspaceStore } from "@/domains/workspace/shared/stores/useWorkspac
 import { useVaultStore } from "@/domains/vault/shared/stores/useVaultStore";
 import { useVaultPermission } from "@/domains/auth/hooks/useVaultPermission";
 import { NoteService } from "@/domains/vault/shared/api/NoteService";
-import { updateNodeAction, deleteNodeAction } from "@/domains/workspace/shared/api/workspaceActions";
+import {
+  updateNodeAction,
+  deleteNodeAction,
+} from "@/domains/workspace/shared/api/workspaceActions";
 import { useAuth } from "@/domains/auth/hooks/useAuth";
 import { BulkPublishModal } from "@/domains/collaboration/components/BulkPublishModal";
 import { BulkPublishService } from "@/domains/collaboration/services/BulkPublishService";
@@ -60,11 +63,29 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
   const { user, session } = useAuth();
   const isAuthenticated = Boolean(user && session);
 
+  const [selectedForPublishIds, setSelectedForPublishIds] = useState<string[] | undefined>(
+    undefined,
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
-  const [publishedMap, setPublishedMap] = useState<Record<string, { status: string; slug: string }>>({});
+  const [publishedMap, setPublishedMap] = useState<
+    Record<string, { status: string; slug: string }>
+  >({});
+
+  // Handler Publikasi Terpilih (Granular):
+  const handlePublishSelectedOnly = () => {
+    if (selectedIds.size === 0) return;
+    setSelectedForPublishIds(Array.from(selectedIds));
+    setBulkModalFolder(folderNode);
+  };
+
+  // Handler Publikasi Semua (Folder Recursive):
+  const handlePublishEntireFolder = (targetFolder: Node) => {
+    setSelectedForPublishIds(undefined); // undefined = ambil semua anak rekursif
+    setBulkModalFolder(targetFolder);
+  };
 
   // Modal State untuk Publikasi Rekursif
   const [bulkModalFolder, setBulkModalFolder] = useState<Node | null>(null);
@@ -126,8 +147,7 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
 
   // Checkbox seleksi bulk
   const isAllSelected =
-    filteredChildren.length > 0 &&
-    filteredChildren.every((n) => selectedIds.has(n.id));
+    filteredChildren.length > 0 && filteredChildren.every((n) => selectedIds.has(n.id));
 
   const toggleSelectAll = () => {
     if (isAllSelected) {
@@ -187,10 +207,7 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 text-xs">
-          <DropdownMenuItem
-            onClick={() => openFile(item.id, item.name, "tab")}
-            className="text-xs"
-          >
+          <DropdownMenuItem onClick={() => openFile(item.id, item.name, "tab")} className="text-xs">
             <ExternalLink className="w-3.5 h-3.5 mr-2" />
             Buka di Editor
           </DropdownMenuItem>
@@ -207,10 +224,7 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
             Buka di Tab Graph
           </DropdownMenuItem>
 
-          <DropdownMenuItem
-            onClick={() => startRename(item)}
-            className="text-xs"
-          >
+          <DropdownMenuItem onClick={() => startRename(item)} className="text-xs">
             <Edit2 className="w-3.5 h-3.5 mr-2" />
             Ubah Nama
           </DropdownMenuItem>
@@ -278,20 +292,32 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
       {/* Header Statistik & Deskripsi Folder */}
       <div className="w-full max-w-full min-w-0 rounded-lg border border-border/40 bg-muted/15 p-3 sm:p-3.5 space-y-2 sm:space-y-2.5 overflow-hidden">
         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs">
-          <Badge variant="outline" className="gap-1 sm:gap-1.5 font-medium bg-background/50 px-2 py-0.5 sm:px-2.5 sm:py-1">
+          <Badge
+            variant="outline"
+            className="gap-1 sm:gap-1.5 font-medium bg-background/50 px-2 py-0.5 sm:px-2.5 sm:py-1"
+          >
             <Layers className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-primary" />
             Total: {stats.total} item
           </Badge>
-          <Badge variant="outline" className="gap-1 sm:gap-1.5 font-medium bg-background/50 px-2 py-0.5 sm:px-2.5 sm:py-1">
+          <Badge
+            variant="outline"
+            className="gap-1 sm:gap-1.5 font-medium bg-background/50 px-2 py-0.5 sm:px-2.5 sm:py-1"
+          >
             <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-blue-500" />
             {stats.notes} Catatan
           </Badge>
-          <Badge variant="outline" className="gap-1 sm:gap-1.5 font-medium bg-background/50 px-2 py-0.5 sm:px-2.5 sm:py-1">
+          <Badge
+            variant="outline"
+            className="gap-1 sm:gap-1.5 font-medium bg-background/50 px-2 py-0.5 sm:px-2.5 sm:py-1"
+          >
             <Folder className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500" />
             {stats.subfolders} Subfolder
           </Badge>
           {stats.media > 0 && (
-            <Badge variant="outline" className="gap-1 sm:gap-1.5 font-medium bg-background/50 px-2 py-0.5 sm:px-2.5 sm:py-1">
+            <Badge
+              variant="outline"
+              className="gap-1 sm:gap-1.5 font-medium bg-background/50 px-2 py-0.5 sm:px-2.5 sm:py-1"
+            >
               <Image className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500" />
               {stats.media} Media
             </Badge>
@@ -322,14 +348,12 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
         {permissions.canPublish && (
           <Button
             size="sm"
-            variant="outline"
-            onClick={() => handlePublishFolderRecursive(folderNode)}
-            className="h-8 text-xs gap-1.5 shrink-0 border-primary/40 text-primary hover:bg-primary/10 w-full md:w-auto justify-center px-3"
+            variant="secondary"
+            onClick={handlePublishSelectedOnly}
+            className="h-7 text-xs font-medium gap-1.5 flex-1 sm:flex-initial"
           >
-            <FolderTree className="w-3.5 h-3.5 text-primary shrink-0" />
-            <span className="truncate">
-              Publikasikan Semua ({totalDescendants.length + 1})
-            </span>
+            <Globe className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">Publikasikan Terpilih ({selectedIds.size})</span>
           </Button>
         )}
       </div>
@@ -337,9 +361,7 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
       {/* Floating Action Bar Responsif saat ada item yang dipilih */}
       {selectedIds.size > 0 && (
         <div className="sticky top-2 z-20 w-full max-w-full min-w-0 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 p-2.5 sm:px-3.5 sm:py-2 rounded-lg bg-primary text-primary-foreground shadow-md animate-in fade-in slide-in-from-top-1 duration-150">
-          <span className="text-xs font-medium">
-            {selectedIds.size} item dipilih
-          </span>
+          <span className="text-xs font-medium">{selectedIds.size} item dipilih</span>
 
           <div className="flex items-center gap-2 justify-end w-full sm:w-auto">
             {permissions.canPublish && (
@@ -385,7 +407,9 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
         <div className="divide-y divide-border/20 w-full max-w-full">
           {filteredChildren.length === 0 ? (
             <div className="py-8 text-center text-xs text-muted-foreground">
-              {searchQuery ? "Tidak ada file yang cocok dengan pencarian." : "Folder ini masih kosong."}
+              {searchQuery
+                ? "Tidak ada file yang cocok dengan pencarian."
+                : "Folder ini masih kosong."}
             </div>
           ) : (
             filteredChildren.map((item) => {
@@ -400,7 +424,7 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
                   key={item.id}
                   className={cn(
                     "flex items-center gap-2 px-3 py-2.5 transition-colors w-full max-w-full min-w-0",
-                    selectedIds.has(item.id) ? "bg-muted/30" : "hover:bg-muted/15"
+                    selectedIds.has(item.id) ? "bg-muted/30" : "hover:bg-muted/15",
                   )}
                 >
                   {/* Checkbox */}
@@ -477,7 +501,10 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
                           Terbit
                         </Badge>
                       ) : (
-                        <Badge variant="outline" className="text-[9px] px-1 py-0 text-muted-foreground leading-none h-4 shrink-0">
+                        <Badge
+                          variant="outline"
+                          className="text-[9px] px-1 py-0 text-muted-foreground leading-none h-4 shrink-0"
+                        >
                           Draf
                         </Badge>
                       )}
@@ -520,7 +547,9 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
               {filteredChildren.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="py-8 text-center text-muted-foreground">
-                    {searchQuery ? "Tidak ada file yang cocok dengan pencarian." : "Folder ini masih kosong."}
+                    {searchQuery
+                      ? "Tidak ada file yang cocok dengan pencarian."
+                      : "Folder ini masih kosong."}
                   </td>
                 </tr>
               ) : (
@@ -615,7 +644,10 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
                             Terbit
                           </Badge>
                         ) : (
-                          <Badge variant="outline" className="text-[9px] px-1.5 py-0 text-muted-foreground leading-none h-4">
+                          <Badge
+                            variant="outline"
+                            className="text-[9px] px-1.5 py-0 text-muted-foreground leading-none h-4"
+                          >
                             Draf
                           </Badge>
                         )}
@@ -638,11 +670,15 @@ export const FolderOverviewEditor: React.FC<FolderOverviewEditorProps> = ({
       <BulkPublishModal
         open={Boolean(bulkModalFolder)}
         onOpenChange={(isOpen) => {
-          if (!isOpen) setBulkModalFolder(null);
+          if (!isOpen) {
+            setBulkModalFolder(null);
+            setSelectedForPublishIds(undefined);
+          }
         }}
         folderNode={bulkModalFolder as any}
         allNodes={nodes as any}
         currentVaultId={currentVaultId}
+        selectedNodeIds={selectedForPublishIds}
       />
     </div>
   );

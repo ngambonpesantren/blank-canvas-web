@@ -42,6 +42,7 @@ export interface BulkPublishModalProps {
   folderNode: ExplorerNode | null;
   allNodes: ExplorerNode[];
   currentVaultId: string | null;
+  selectedNodeIds?: string[];
 }
 
 export const BulkPublishModal: React.FC<BulkPublishModalProps> = ({
@@ -50,6 +51,7 @@ export const BulkPublishModal: React.FC<BulkPublishModalProps> = ({
   folderNode,
   allNodes,
   currentVaultId,
+   selectedNodeIds,
 }) => {
   const { user } = useAuth();
 
@@ -69,6 +71,40 @@ export const BulkPublishModal: React.FC<BulkPublishModalProps> = ({
   const [publicReaderUrl, setPublicReaderUrl] = useState<string | null>(null);
 
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  const [checkedIds, setCheckedIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (open && folderNode) {
+      let targetNodes: (ExplorerNode | any)[] = [];
+
+      if (selectedNodeIds && selectedNodeIds.length > 0) {
+        // Ambil hanya item yang secara eksplisit dipilih
+        const selectedSet = new Set(selectedNodeIds);
+        targetNodes = allNodes.filter((n) => selectedSet.has(n.id));
+      } else {
+        // Rekursif penuh
+        targetNodes = BulkPublishService.collectDescendantsRecursive(
+          folderNode.id,
+          allNodes,
+          true,
+        );
+      }
+
+      const initial = BulkPublishService.initializeItems(targetNodes);
+      setItems(initial);
+      setCheckedIds(new Set(initial.map((i) => i.nodeId)));
+      setProgress({
+        total: initial.length,
+        completed: 0,
+        succeeded: 0,
+        failed: 0,
+        percent: 0,
+      });
+      setIsRunning(false);
+      setPublicReaderUrl(null);
+    }
+  }, [open, folderNode, allNodes, selectedNodeIds]);
 
   // Ganti blok useEffect inisialisasi catatan (sekitar baris 74-90):
   useEffect(() => {
@@ -119,8 +155,9 @@ export const BulkPublishModal: React.FC<BulkPublishModalProps> = ({
 
   // Jalankan Publikasi Massal
   const handleStartPublish = async () => {
-    if (!currentVaultId) {
-      toast.error("Vault aktif tidak teridentifikasi.");
+    const activeItems = items.filter((i) => checkedIds.has(i.nodeId));
+    if (activeItems.length === 0) {
+      toast.warning("Pilih minimal satu berkas atau folder untuk dipublikasikan.");
       return;
     }
 

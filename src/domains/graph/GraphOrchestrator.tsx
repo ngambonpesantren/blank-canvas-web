@@ -1,6 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import { GraphCanvas, type GraphCanvasHandle } from "@/domains/graph/components/GraphCanvas";
-import { GraphWorkspaceControls, type SmartZoomAction } from "@/domains/graph/components/GraphWorkspaceControls";
+import {
+  GraphWorkspaceControls,
+  type SmartZoomAction,
+} from "@/domains/graph/components/GraphWorkspaceControls";
 import {
   useLeafGraphConfigStore,
   LeafGraphConfigProvider,
@@ -72,18 +75,30 @@ function GraphSurface({
 
   // Sinkronkan canvasMode bila ada request dari view state
   useEffect(() => {
-    if (view?.canvasMode) {
+    if (view?.canvasMode && view.canvasMode !== canvasMode) {
       setCanvasMode(view.canvasMode);
     }
-  }, [view?.canvasMode, setCanvasMode]);
+  }, [view?.canvasMode, canvasMode, setCanvasMode]);
 
-  // Sinkronkan judul tab & canvasMode pada leaf view workspace
+
+
+  // Sinkronkan judul tab & canvasMode pada leaf view workspace tanpa feedback-loop
+  const currentViewTitle = view?.title;
+  const currentViewCanvasMode = view?.canvasMode;
+
   useEffect(() => {
-    const title = canvasMode === "mindmap" ? "Mindmap View" : "Graph View";
-    if (view && (view.title !== title || view.canvasMode !== canvasMode)) {
-      useWorkspaceStore.getState().setLeafView(leafId, { ...view, title, canvasMode });
+    const expectedTitle = canvasMode === "mindmap" ? "Mindmap View" : "Graph View";
+    if (currentViewTitle !== expectedTitle || currentViewCanvasMode !== canvasMode) {
+      const currentView = useWorkspaceStore.getState().getActiveLeaf()?.view;
+      if (currentView) {
+        useWorkspaceStore.getState().setLeafView(leafId, {
+          ...currentView,
+          title: expectedTitle,
+          canvasMode,
+        });
+      }
     }
-  }, [canvasMode, leafId, view]);
+  }, [canvasMode, leafId, currentViewTitle, currentViewCanvasMode]);
 
   const [search, setSearch] = useState("");
   const [minDepth, setMinDepth] = useState(0);

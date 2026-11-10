@@ -19,7 +19,11 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import type { CanvasMode, LayoutMode, MindmapOrientation } from "@/domains/graph/shared/utils/graph.types";
+import type {
+  CanvasMode,
+  LayoutMode,
+  MindmapOrientation,
+} from "@/domains/graph/shared/utils/graph.types";
 import { useGraphStore } from "@/shared/stores";
 import { useGraphInteractionStore } from "@/domains/graph/shared/stores/useGraphInteractionStore";
 import {
@@ -119,7 +123,7 @@ interface GraphSettingContentProps {
   layout: LayoutMode;
   canvasMode: CanvasMode;
   orientation: MindmapOrientation;
-  compact?: boolean; 
+  compact?: boolean;
   onCanvasModeChange: (mode: CanvasMode) => void;
   onLayoutChange: (layout: LayoutMode) => void;
   onOrientationChange: (orientation: MindmapOrientation) => void;
@@ -174,7 +178,7 @@ function GraphSettingContent(props: GraphSettingContentProps) {
     resetConfig,
   } = props;
 
-    return (
+  return (
     <>
       {activePanel === "search" && (
         <SearchPanel
@@ -251,7 +255,6 @@ function GraphSettingContent(props: GraphSettingContentProps) {
     </>
   );
 }
-
 
 // =============================================================================
 // 3. SUB-COMPONENT: HORIZONTAL EXPANDABLE OFFICE TOOLBAR (RESIZABLE & SMOOTH TABS)
@@ -504,12 +507,8 @@ function ClassicGearControls({
   onClosePanel: () => void;
 } & Omit<GraphSettingContentProps, "activePanel">) {
   return (
-    // UBAH: Posisi di kanan atas (top-2 right-2 sm:top-4 sm:right-4)
-    // UBAH: Gunakan flex-col items-end (BUKAN flex-col-reverse) agar panel muncul ke bawah
     <div className="pointer-events-none absolute top-3 right-3 z-40 flex flex-col items-end gap-1.5 sm:top-4 sm:right-4">
-      {/* Baris Tombol Gear & Opsi Horizontal */}
       <div className="pointer-events-auto flex items-center rounded-lg border border-border/60 bg-card/90 p-1 shadow-md shadow-black/25 backdrop-blur-md transition-all">
-        {/* Tombol-tombol Opsi mekar ke arah KIRI dari tombol Gear */}
         {isGearOpen && (
           <div className="mr-1 flex max-w-[calc(100vw-80px)] sm:max-w-[280px] items-center gap-1 overflow-x-auto overscroll-contain pr-1 border-r border-border/50 no-scrollbar animate-in fade-in-0 slide-in-from-right-2 duration-150">
             {NAV_ITEMS.map((item) => {
@@ -518,82 +517,70 @@ function ClassicGearControls({
               const hasActiveFilterBadge = item.badgeFilter && filterCount > 0;
 
               return (
-                <Tooltip key={item.id}>
-                  <TooltipTrigger asChild>
-                    <Button
-                      type="button"
-                      variant={isActive ? "secondary" : "ghost"}
-                      size="icon"
-                      className={cn(
-                        "relative h-7 w-7 rounded-md shrink-0 transition-colors",
-                        hasActiveFilterBadge && "text-primary",
-                      )}
-                      onClick={() => onSelectPanel(item.id)}
-                      aria-label={item.label}
-                    >
-                      <Icon className={cn("h-3.5 w-3.5", item.iconClassName)} />
-                      {hasActiveFilterBadge && (
-                        <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-primary ring-1 ring-background" />
-                      )}
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom" className="text-xs">
-                    {item.label}
-                  </TooltipContent>
-                </Tooltip>
+                <Button
+                  key={item.id}
+                  type="button"
+                  variant={isActive ? "secondary" : "ghost"}
+                  size="icon"
+                  className={cn(
+                    "relative h-7 w-7 rounded-md shrink-0 transition-colors",
+                    hasActiveFilterBadge && "text-primary",
+                  )}
+                  onClick={() => onSelectPanel(item.id)}
+                  aria-label={item.label}
+                  title={item.label}
+                >
+                  <Icon className={cn("h-3.5 w-3.5", item.iconClassName)} />
+                  {hasActiveFilterBadge && (
+                    <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-primary ring-1 ring-background" />
+                  )}
+                </Button>
               );
             })}
           </div>
         )}
 
-        {/* Tombol Utama Gear (Ikon Settings2) di Ujung Kanan */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              type="button"
-              variant={isGearOpen ? "secondary" : "ghost"}
-              size="icon"
-              className={cn(
-                "relative h-7 w-7 rounded-md shrink-0 transition-transform duration-200",
-                isGearOpen && "rotate-45",
-              )}
-              aria-label="Toggle Graph Settings Menu"
-              onClick={onToggleGear}
-            >
-              <Settings2 className="h-3.5 w-3.5" />
-              {filterCount > 0 && !isGearOpen && (
-                <span className="absolute right-0.5 top-0.5 h-1.5 w-1.5 rounded-full bg-primary ring-1 ring-background" />
-              )}
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" className="text-xs">
-            {isGearOpen ? "Sembunyikan Pengaturan" : "Buka Pengaturan Graph"}
-          </TooltipContent>
-        </Tooltip>
+        <Button
+          type="button"
+          variant={isGearOpen ? "secondary" : "ghost"}
+          size="icon"
+          className={cn(
+            "relative h-7 w-7 rounded-md shrink-0 transition-transform duration-200",
+            isGearOpen && "rotate-45",
+          )}
+          aria-label="Toggle Graph Settings Menu"
+          title="Pengaturan Tampilan Graf"
+          onClick={onToggleGear}
+        >
+          <Settings2 className="h-4 w-4 text-foreground/80 hover:text-foreground" />
+        </Button>
       </div>
 
-      {/* Flyout Panel Pengaturan: Turun Vertikal ke Bawah & Scrollbar Modern */}
-      {activePanel && (
-        <section className="pointer-events-auto flex h-[min(340px,calc(100vh-140px))] w-[min(324px,calc(100vw-32px))] flex-col overflow-hidden rounded-lg border border-border/60 bg-card/95 shadow-lg shadow-black/30 backdrop-blur-md animate-in fade-in-0 slide-in-from-top-2 duration-150">
-          <header className="flex h-7 shrink-0 items-center justify-between border-b border-border/50 px-2.5 bg-muted/20">
-            <span className="truncate text-[11px] font-medium text-foreground tracking-tight">
+      {isGearOpen && activePanel && (
+        <section
+          role="region"
+          aria-label="Graph Control Settings Panel"
+          className="pointer-events-auto w-[min(340px,calc(100vw-1.5rem))] max-h-[calc(100vh-6.5rem)] flex flex-col rounded-xl border border-border/70 bg-card/95 shadow-2xl backdrop-blur-md animate-in fade-in-0 zoom-in-95 duration-150"
+        >
+          <div className="flex h-8 items-center justify-between border-b border-border/50 px-3 shrink-0">
+            <span className="text-[11px] font-semibold text-foreground/90">
               {PANEL_TITLES[activePanel]}
             </span>
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="h-5 w-5 rounded shrink-0 text-muted-foreground hover:text-foreground"
-              aria-label="Tutup panel pengaturan"
+              className="h-5 w-5 rounded p-0 text-muted-foreground hover:text-foreground"
               onClick={onClosePanel}
+              aria-label="Tutup Panel"
+              title="Tutup Panel"
             >
               <X className="h-3 w-3" />
             </Button>
-          </header>
+          </div>
 
-          {/* Area Konten: scrollbar-thin, bebas scrollbar horizontal */}
-          <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden p-2.5 scrollbar-thin scrollbar-thumb-muted-foreground/20 hover:scrollbar-thumb-muted-foreground/30 scrollbar-track-transparent">
-            <GraphSettingContent activePanel={activePanel} compact={true} {...contentProps} />
+          <div className="flex-1 overflow-y-auto p-3 [scrollbar-width:thin]">
+            <GraphSettingContent activePanel={activePanel} {...contentProps} />
           </div>
         </section>
       )}
@@ -739,7 +726,7 @@ export function GraphWorkspaceControls({
   };
 
   return (
-    <TooltipProvider delayDuration={200}>
+    <>
       {/* 1. KONTROL UTAMA: BERDASARKAN MODE (HORIZONTAL TOOLBAR ATAU GEAR) */}
       {displayMode === "horizontal_toolbar" ? (
         <HorizontalOfficeToolbar
@@ -764,6 +751,6 @@ export function GraphWorkspaceControls({
           {...contentProps}
         />
       )}
-    </TooltipProvider>
+    </>
   );
 }

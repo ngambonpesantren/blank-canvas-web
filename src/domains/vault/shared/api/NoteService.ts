@@ -54,6 +54,42 @@ export class NoteService {
       .replace(/^-+|-+$/g, "");
   }
 
+  
+  /**
+   * Memastikan record user_vaults tersedia di Supabase sebelum catatan dipublikasikan,
+   * sehingga tidak terbentur Foreign Key Constraint (notes_vault_id_fkey) atau RLS policy.
+   */
+  static async ensureVaultRegistered(
+    vaultId: string,
+    userId: string,
+    vaultName = "My Vault",
+  ): Promise<string> {
+    // Validasi UUID; jika bukan UUID valid buat UUID deterministik/baru
+    const isValidUuid = this.UUID_REGEX.test(vaultId);
+    const targetVaultId = isValidUuid ? vaultId : crypto.randomUUID();
+
+    const { data: existing } = await supabase
+      .from("user_vaults")
+      .select("id, user_id")
+      .eq("id", targetVaultId)
+      .maybeSingle();
+
+    if (!existing) {
+      const { error: insertError } = await supabase.from("user_vaults").insert({
+        id: targetVaultId,
+        user_id: userId,
+        name: vaultName,
+        updated_at: new Date().toISOString(),
+      });
+
+      if (insertError && !insertError.message.includes("duplicate key")) {
+        console.warn("[NoteService] ensureVaultRegistered notice:", insertError.message);
+      }
+    }
+
+    return targetVaultId;
+  }
+
   static extractWikilinks(content: string): string[] {
     if (!content) return [];
     const wikilinkRegex = /!?\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|[^\]]+)?\]\]/g;
@@ -76,15 +112,11 @@ export class NoteService {
   static async findNoteInVault(
     vaultId: string,
     nodeId: string,
-    title?: string
+    title?: string,
   ): Promise<NoteRecord | null> {
     // 1. Cek jika nodeId adalah UUID valid
     if (this.UUID_REGEX.test(nodeId)) {
-      const { data } = await supabase
-        .from("notes")
-        .select("*")
-        .eq("id", nodeId)
-        .maybeSingle();
+      const { data } = await supabase.from("notes").select("*").eq("id", nodeId).maybeSingle();
       if (data) return data as NoteRecord;
     }
 
@@ -106,11 +138,7 @@ export class NoteService {
   static async getNote(noteId: string): Promise<NoteRecord | null> {
     if (!this.UUID_REGEX.test(noteId)) return null;
 
-    const { data, error } = await supabase
-      .from("notes")
-      .select("*")
-      .eq("id", noteId)
-      .maybeSingle();
+    const { data, error } = await supabase.from("notes").select("*").eq("id", noteId).maybeSingle();
 
     if (error) {
       throw new Error(`Gagal memuat catatan: ${error.message}`);
@@ -143,6 +171,8 @@ export class NoteService {
   static async publishOrUpdateNote(input: PublishNoteInput): Promise<NoteRecord> {
     const { data: userData } = await supabase.auth.getUser();
     const currentUserId = userData?.user?.id;
+    const resolvedVaultId = await this.ensureVaultRegistered(input.vaultId, currentUserId);
+
     if (!currentUserId) {
       throw new Error("Anda harus masuk (login) untuk mempublikasikan catatan.");
     }
@@ -151,11 +181,7 @@ export class NoteService {
     const nowIso = new Date().toISOString();
 
     // 1. Cari apakah catatan sudah terdaftar sebelumnya di database
-    const existing = await this.findNoteInVault(
-      input.vaultId,
-      input.nodeId,
-      input.title
-    );
+    const existing = await this.findNoteInVault(input.vaultId, input.nodeId, input.title);
 
     if (existing) {
       // Perbarui catatan yang sudah ada
@@ -168,9 +194,7 @@ export class NoteService {
           status: targetStatus,
           version: nextVersion,
           published_at:
-            targetStatus === "published"
-              ? existing.published_at || nowIso
-              : existing.published_at,
+            targetStatus === "published" ? existing.published_at || nowIso : existing.published_at,
           updated_at: nowIso,
           frontmatter: {
             ...((existing.frontmatter as Record<string, any>) || {}),
@@ -267,7 +291,7 @@ export class NoteService {
     }
   }
 
-    /**
+  /**
    * Membuat catatan baru granular di database.
    * Digunakan oleh sinkronisasi otomatis dan migrasi.
    */
@@ -316,19 +340,13 @@ export class NoteService {
   /**
    * Memperbarui catatan yang sudah ada dengan deteksi versi optimistik.
    */
-  static async updateNote(
-    noteId: string,
-    updates: UpdateNoteInput
-  ): Promise<NoteRecord> {
+  static async updateNote(noteId: string, updates: UpdateNoteInput): Promise<NoteRecord> {
     const existing = await this.getNote(noteId);
     if (!existing) {
       throw new Error(`Catatan dengan ID ${noteId} tidak ditemukan.`);
     }
 
-    if (
-      updates.expectedVersion !== undefined &&
-      existing.version !== updates.expectedVersion
-    ) {
+    if (updates.expectedVersion !== undefined && existing.version !== updates.expectedVersion) {
       throw new Error("Konflik pengeditan: versi catatan di server telah berubah.");
     }
 
@@ -374,17 +392,13 @@ export class NoteService {
     const updatedRecord = data as NoteRecord;
 
     if (updates.content !== undefined) {
-      await this.syncNoteLinks(
-        updatedRecord.vault_id,
-        updatedRecord.id,
-        updates.content
-      );
+      await this.syncNoteLinks(updatedRecord.vault_id, updatedRecord.id, updates.content);
     }
 
     return updatedRecord;
   }
 
-    /**
+  /**
    * Menarik catatan dari publikasi web (status kembali ke draf dan published_at dihapus).
    */
   static async unpublishNote(noteId: string): Promise<NoteRecord> {
@@ -407,11 +421,10 @@ export class NoteService {
     return data as NoteRecord;
   }
 
-
   private static async syncNoteLinks(
     noteId: string,
     vaultId: string,
-    content: string
+    content: string,
   ): Promise<void> {
     const targetSlugs = this.extractWikilinks(content);
 
